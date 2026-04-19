@@ -23,9 +23,9 @@
     --white: #FFFFFF;
     --input-bg: rgba(255,255,255,0.05);
   }
-
+ 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
+ 
   html, body {
     height: 100%;
     height: -webkit-fill-available;
@@ -35,7 +35,7 @@
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
   }
-
+ 
   /* API KEY SCREEN */
   #apiScreen {
     position: fixed;
@@ -48,7 +48,7 @@
     padding: 32px 24px;
     z-index: 100;
   }
-
+ 
   #apiScreen h1 {
     font-family: 'Cormorant Garamond', serif;
     font-size: 36px;
@@ -57,9 +57,9 @@
     margin-bottom: 8px;
     text-align: center;
   }
-
+ 
   #apiScreen h1 em { font-style: italic; color: var(--camel); }
-
+ 
   #apiScreen p {
     font-size: 13px;
     color: var(--text-dim);
@@ -68,7 +68,7 @@
     line-height: 1.7;
     max-width: 300px;
   }
-
+ 
   #apiKeyInput {
     width: 100%;
     max-width: 360px;
@@ -83,10 +83,10 @@
     margin-bottom: 12px;
     letter-spacing: 0.5px;
   }
-
+ 
   #apiKeyInput:focus { border-color: var(--camel); }
   #apiKeyInput::placeholder { color: var(--text-dim); }
-
+ 
   #saveKeyBtn {
     width: 100%;
     max-width: 360px;
@@ -103,9 +103,9 @@
     border-radius: 4px;
     transition: background 0.2s;
   }
-
+ 
   #saveKeyBtn:hover { background: var(--terracotta); }
-
+ 
   .api-note {
     font-size: 11px;
     color: var(--text-dim);
@@ -114,9 +114,9 @@
     max-width: 300px;
     line-height: 1.6;
   }
-
+ 
   .api-note a { color: var(--camel); text-decoration: none; }
-
+ 
   /* MAIN APP */
   #app {
     display: none;
@@ -126,9 +126,9 @@
     max-width: 640px;
     margin: 0 auto;
   }
-
+ 
   #app.visible { display: flex; }
-
+ 
   /* HEADER */
   .app-header {
     padding: 16px 20px 12px;
@@ -139,7 +139,7 @@
     flex-shrink: 0;
     background: var(--bg);
   }
-
+ 
   .app-header-left h1 {
     font-family: 'Cormorant Garamond', serif;
     font-size: 22px;
@@ -147,9 +147,9 @@
     color: var(--text-bright);
     line-height: 1;
   }
-
+ 
   .app-header-left h1 em { font-style: italic; color: var(--camel); }
-
+ 
   .app-header-left .subtitle {
     font-size: 10px;
     letter-spacing: 2px;
@@ -157,9 +157,9 @@
     color: var(--text-dim);
     margin-top: 3px;
   }
-
+ 
   .header-actions { display: flex; gap: 8px; }
-
+ 
   .header-btn {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -173,9 +173,9 @@
     border-radius: 3px;
     transition: all 0.2s;
   }
-
+ 
   .header-btn:hover { border-color: var(--camel); color: var(--camel); }
-
+ 
   /* MODE TABS */
   .mode-tabs {
     display: flex;
@@ -187,9 +187,9 @@
     scrollbar-width: none;
     background: var(--bg);
   }
-
+ 
   .mode-tabs::-webkit-scrollbar { display: none; }
-
+ 
   .mode-tab {
     background: transparent;
     border: 1px solid var(--border);
@@ -205,16 +205,16 @@
     transition: all 0.2s;
     flex-shrink: 0;
   }
-
+ 
   .mode-tab.active {
     background: var(--camel);
     border-color: var(--camel);
     color: var(--bg);
     font-weight: 500;
   }
-
+ 
   .mode-tab:not(.active):hover { border-color: var(--camel-dim); color: var(--camel-dim); }
-
+ 
   /* MESSAGES */
   .messages {
     flex: 1;
@@ -225,22 +225,22 @@
     gap: 14px;
     -webkit-overflow-scrolling: touch;
   }
-
+ 
   .messages::-webkit-scrollbar { width: 3px; }
   .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
+ 
   /* WELCOME */
   .welcome {
     text-align: center;
     padding: 24px 16px;
     animation: fadeUp 0.5s ease both;
   }
-
+ 
   .welcome-icon {
     font-size: 32px;
     margin-bottom: 12px;
   }
-
+ 
   .welcome h2 {
     font-family: 'Cormorant Garamond', serif;
     font-size: 26px;
@@ -248,9 +248,9 @@
     color: var(--text-bright);
     margin-bottom: 8px;
   }
-
+ 
   .welcome h2 em { font-style: italic; color: var(--camel); }
-
+ 
   .welcome p {
     font-size: 13px;
     color: var(--text-dim);
@@ -258,7 +258,7 @@
     max-width: 300px;
     margin: 0 auto 20px;
   }
-
+ 
   /* QUICK PROMPTS */
   .quick-prompts {
     display: flex;
@@ -266,7 +266,7 @@
     gap: 8px;
     margin-top: 4px;
   }
-
+ 
   .quick-prompt {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -281,13 +281,13 @@
     transition: all 0.2s;
     line-height: 1.4;
   }
-
+ 
   .quick-prompt:hover {
     border-color: var(--camel);
     color: var(--text-bright);
     background: var(--surface2);
   }
-
+ 
   .quick-prompt .prompt-label {
     font-size: 9px;
     letter-spacing: 2px;
@@ -296,7 +296,7 @@
     display: block;
     margin-bottom: 4px;
   }
-
+ 
   /* MESSAGES */
   .msg {
     display: flex;
@@ -304,43 +304,43 @@
     animation: fadeUp 0.3s ease both;
     max-width: 88%;
   }
-
+ 
   .msg.user { align-self: flex-end; }
   .msg.assistant { align-self: flex-start; }
-
+ 
   .msg-bubble {
     padding: 12px 16px;
     border-radius: 4px;
     font-size: 14px;
     line-height: 1.65;
   }
-
+ 
   .msg.user .msg-bubble {
     background: rgba(196,154,108,0.12);
     border: 1px solid rgba(196,154,108,0.2);
     color: var(--text-bright);
     border-bottom-right-radius: 1px;
   }
-
+ 
   .msg.assistant .msg-bubble {
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
     border-bottom-left-radius: 1px;
   }
-
+ 
   .msg.assistant .msg-bubble strong { color: var(--camel); font-weight: 500; }
   .msg.assistant .msg-bubble em { color: var(--text-bright); font-style: italic; }
-
+ 
   .msg-time {
     font-size: 10px;
     color: var(--text-dim);
     margin-top: 4px;
     padding: 0 4px;
   }
-
+ 
   .msg.user .msg-time { text-align: right; }
-
+ 
   /* THINKING */
   .thinking-bubble {
     align-self: flex-start;
@@ -353,7 +353,7 @@
     align-items: center;
     animation: fadeUp 0.3s ease both;
   }
-
+ 
   .dot {
     width: 5px;
     height: 5px;
@@ -361,15 +361,15 @@
     border-radius: 50%;
     animation: pulse 1.2s ease infinite;
   }
-
+ 
   .dot:nth-child(2) { animation-delay: 0.2s; }
   .dot:nth-child(3) { animation-delay: 0.4s; }
-
+ 
   @keyframes pulse {
     0%, 100% { opacity: 0.3; transform: scale(0.8); }
     50% { opacity: 1; transform: scale(1); }
   }
-
+ 
   /* INPUT AREA */
   .input-area {
     padding: 12px 16px 20px;
@@ -377,7 +377,7 @@
     flex-shrink: 0;
     background: var(--bg);
   }
-
+ 
   /* Context bar */
   .context-bar {
     display: flex;
@@ -386,9 +386,9 @@
     overflow-x: auto;
     scrollbar-width: none;
   }
-
+ 
   .context-bar::-webkit-scrollbar { display: none; }
-
+ 
   .context-chip {
     background: transparent;
     border: 1px solid var(--border);
@@ -404,19 +404,19 @@
     flex-shrink: 0;
     transition: all 0.2s;
   }
-
+ 
   .context-chip.active {
     background: var(--surface2);
     border-color: var(--camel-dim);
     color: var(--camel);
   }
-
+ 
   .input-row {
     display: flex;
     gap: 8px;
     align-items: flex-end;
   }
-
+ 
   .chat-input {
     flex: 1;
     background: var(--input-bg);
@@ -435,10 +435,10 @@
     line-height: 1.5;
     -webkit-appearance: none;
   }
-
+ 
   .chat-input::placeholder { color: var(--text-dim); }
   .chat-input:focus { border-color: var(--camel); }
-
+ 
   .send-btn {
     width: 46px;
     height: 46px;
@@ -454,13 +454,13 @@
     transition: background 0.2s, transform 0.1s;
     flex-shrink: 0;
   }
-
+ 
   .send-btn:hover { background: var(--terracotta); }
   .send-btn:active { transform: scale(0.95); }
   .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
+ 
   .send-btn svg { width: 18px; height: 18px; }
-
+ 
   /* LOG PANEL */
   #logPanel {
     display: none;
@@ -472,9 +472,9 @@
     max-width: 640px;
     margin: 0 auto;
   }
-
+ 
   #logPanel.visible { display: flex; }
-
+ 
   .panel-header {
     padding: 20px;
     border-bottom: 1px solid var(--border);
@@ -482,14 +482,14 @@
     justify-content: space-between;
     align-items: center;
   }
-
+ 
   .panel-header h2 {
     font-family: 'Cormorant Garamond', serif;
     font-size: 22px;
     font-weight: 300;
     color: var(--text-bright);
   }
-
+ 
   .close-btn {
     background: transparent;
     border: 1px solid var(--border);
@@ -504,16 +504,16 @@
     justify-content: center;
     transition: all 0.2s;
   }
-
+ 
   .close-btn:hover { border-color: var(--camel); color: var(--camel); }
-
+ 
   .log-content {
     flex: 1;
     overflow-y: auto;
     padding: 20px;
     -webkit-overflow-scrolling: touch;
   }
-
+ 
   .log-entry {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -525,10 +525,10 @@
     align-items: flex-start;
     gap: 12px;
   }
-
+ 
   .log-entry-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; }
   .log-entry-date { font-size: 10px; color: var(--text-dim); white-space: nowrap; margin-top: 2px; }
-
+ 
   .log-delete {
     background: transparent;
     border: none;
@@ -539,14 +539,14 @@
     transition: color 0.2s;
     flex-shrink: 0;
   }
-
+ 
   .log-delete:hover { color: var(--terracotta); }
-
+ 
   .log-input-area {
     padding: 16px 20px 24px;
     border-top: 1px solid var(--border);
   }
-
+ 
   .log-input {
     width: 100%;
     background: var(--input-bg);
@@ -562,10 +562,10 @@
     -webkit-appearance: none;
     transition: border-color 0.2s;
   }
-
+ 
   .log-input:focus { border-color: var(--camel); }
   .log-input::placeholder { color: var(--text-dim); }
-
+ 
   .log-add-btn {
     width: 100%;
     background: var(--camel);
@@ -581,9 +581,9 @@
     border-radius: 4px;
     transition: background 0.2s;
   }
-
+ 
   .log-add-btn:hover { background: var(--terracotta); }
-
+ 
   .empty-log {
     text-align: center;
     padding: 40px 20px;
@@ -591,7 +591,7 @@
     font-size: 13px;
     line-height: 1.8;
   }
-
+ 
   .log-tip {
     font-size: 11px;
     color: var(--text-dim);
@@ -602,19 +602,156 @@
     border: 1px solid var(--border);
     border-radius: 4px;
   }
-
+ 
+  /* WISHLIST PANEL */
+  #wishlistPanel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 50;
+    flex-direction: column;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  #wishlistPanel.visible { display: flex; }
+ 
+  .wishlist-content { flex: 1; overflow-y: auto; padding: 16px 20px; -webkit-overflow-scrolling: touch; }
+ 
+  .wishlist-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+ 
+  .wishlist-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+ 
+  .wishlist-item-name { font-size: 13px; color: var(--text-bright); line-height: 1.4; flex: 1; font-weight: 400; }
+  .wishlist-item-brand { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--camel-dim); margin-bottom: 4px; }
+  .wishlist-item-note { font-size: 12px; color: var(--text-dim); line-height: 1.4; }
+ 
+  .wishlist-actions { display: flex; gap: 6px; margin-top: 10px; }
+ 
+  .wishlist-search-btn {
+    background: var(--camel);
+    color: var(--bg);
+    border: none;
+    padding: 7px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background 0.2s;
+    flex: 1;
+  }
+  .wishlist-search-btn:hover { background: var(--terracotta); }
+  .wishlist-search-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+ 
+  .wishlist-delete-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 7px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+  }
+  .wishlist-delete-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
+ 
+  .wishlist-result {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .wishlist-result strong { color: var(--camel); }
+  .wishlist-result a { color: var(--camel); text-decoration: underline; }
+ 
+  .wishlist-add-area { padding: 14px 20px 24px; border-top: 1px solid var(--border); }
+  .wishlist-tip { font-size: 11px; color: var(--text-dim); margin-bottom: 12px; line-height: 1.6; }
+ 
+  .wishlist-form { display: flex; flex-direction: column; gap: 8px; }
+ 
+  .wishlist-input {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--text-bright);
+    padding: 11px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    outline: none;
+    border-radius: 4px;
+    -webkit-appearance: none;
+    transition: border-color 0.2s;
+  }
+  .wishlist-input:focus { border-color: var(--camel); }
+  .wishlist-input::placeholder { color: var(--text-dim); }
+ 
+  .wishlist-add-btn {
+    width: 100%;
+    background: var(--camel);
+    color: var(--bg);
+    border: none;
+    padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .wishlist-add-btn:hover { background: var(--terracotta); }
+ 
+  .search-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--camel-dim);
+    font-style: italic;
+    margin-bottom: 6px;
+  }
+ 
+  .search-dot {
+    width: 5px; height: 5px;
+    background: var(--camel);
+    border-radius: 50%;
+    animation: pulse 1s ease infinite;
+  }
+ 
   /* ANIMATIONS */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
+ 
   /* SCROLLBAR */
   * { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 </style>
 </head>
 <body>
-
+ 
 <!-- API KEY SCREEN -->
 <div id="apiScreen">
   <h1>Sol's <em>Stylist</em></h1>
@@ -626,29 +763,31 @@
     Your key never leaves your device.
   </p>
 </div>
-
+ 
 <!-- MAIN APP -->
 <div id="app">
-
+ 
   <div class="app-header">
     <div class="app-header-left">
       <h1>Sol's <em>Stylist</em></h1>
       <div class="subtitle">Always knows you</div>
     </div>
     <div class="header-actions">
+      <button class="header-btn" onclick="openWishlist()">Wishlist</button>
       <button class="header-btn" onclick="openLog()">My Log</button>
       <button class="header-btn" onclick="clearChat()">New</button>
     </div>
   </div>
-
+ 
   <div class="mode-tabs">
     <button class="mode-tab active" onclick="setMode('outfit', this)">Today's Outfit</button>
+    <button class="mode-tab" onclick="setMode('shop', this)">🔍 Shop Now</button>
     <button class="mode-tab" onclick="setMode('shopping', this)">Shopping</button>
     <button class="mode-tab" onclick="setMode('trip', this)">Trip Packing</button>
     <button class="mode-tab" onclick="setMode('capsule', this)">Wardrobe</button>
     <button class="mode-tab" onclick="setMode('hair', this)">Hair & Styling</button>
   </div>
-
+ 
   <div class="messages" id="messages">
     <div class="welcome" id="welcome">
       <div class="welcome-icon">✦</div>
@@ -657,7 +796,7 @@
       <div class="quick-prompts" id="quickPrompts"></div>
     </div>
   </div>
-
+ 
   <div class="input-area">
     <div class="context-bar" id="contextBar"></div>
     <div class="input-row">
@@ -677,9 +816,9 @@
       </button>
     </div>
   </div>
-
+ 
 </div>
-
+ 
 <!-- LOG PANEL -->
 <div id="logPanel">
   <div class="panel-header">
@@ -693,13 +832,30 @@
     <button class="log-add-btn" onclick="addLogEntry()">Add to Log</button>
   </div>
 </div>
-
+ 
+<!-- WISHLIST PANEL -->
+<div id="wishlistPanel">
+  <div class="panel-header">
+    <h2>Wishlist ✦</h2>
+    <button class="close-btn" onclick="closeWishlist()">×</button>
+  </div>
+  <div class="wishlist-content" id="wishlistContent"></div>
+  <div class="wishlist-add-area">
+    <p class="wishlist-tip">Save items you want. Tap "Find Now" to search live prices and availability.</p>
+    <div class="wishlist-form">
+      <input type="text" class="wishlist-input" id="wishlistName" placeholder="Item name — e.g. Madewell petite straight jeans"/>
+      <input type="text" class="wishlist-input" id="wishlistNote" placeholder="Notes — e.g. dark wash, under $120"/>
+      <button class="wishlist-add-btn" onclick="addWishlistItem()">Add to Wishlist</button>
+    </div>
+  </div>
+</div>
+ 
 <script>
 // ─── SYSTEM PROMPT ───────────────────────────────────────────────────────────
 const BASE_SYSTEM = `You are Sol's personal AI stylist. You know everything about her. Never ask for information you already have. Be direct, specific, and warm — like a knowledgeable friend, not a textbook.
-
+ 
 HER COMPLETE PROFILE:
-
+ 
 BODY:
 - Height: 5'3" — petite. Regular-length pants are always too long. Buy petite or ankle cuts.
 - Shoulder: 39.6in (broader than hips — inverted triangle tendency)
@@ -707,14 +863,14 @@ BODY:
 - Torso: 15.5in (short) | Inseam: 26.5in | Ankle: 8.7in (slender)
 - Shoe: US 7–7.5 WIDE WIDTH. Feet swell with extended walking — no pointed toe for long days.
 - Body goal: celebrate waist, balance shoulder-to-hip ratio, elongate short torso.
-
+ 
 COLOUR: Neutral Spring. High contrast — dark brows, warm brown eyes, light neutral skin.
 - Bright white looks excellent on her (confirmed). Navy, camel, warm ivory are core neutrals.
 - Best colours: bright white, warm ivory, camel, navy, bright coral red, coral, terracotta, soft blush, bright teal, bright cobalt, emerald, warm olive.
 - KEY RULE: clear/bright colours over muted/dusty — she carries saturation well.
 - Avoid: lavender, fuchsia, cool gray, icy pastels, muddy taupes.
 - Gold jewelry primary. Silver and mixed metals can also work.
-
+ 
 WHAT WORKS ON HER BODY:
 - V-necks, scoop necks, wrap silhouettes (best necklines)
 - High-waisted everything — always
@@ -724,7 +880,7 @@ WHAT WORKS ON HER BODY:
 - Fitted blazers nipped at waist
 - Bold prints on bottom half only
 - Midi hemlines most elegant; mini for going out
-
+ 
 AVOID:
 - Boat necks, wide off-shoulder, cap sleeves, shoulder ruffles
 - Low-rise bottoms
@@ -732,30 +888,51 @@ AVOID:
 - Boxy/oversized blazers
 - Bold prints on top
 - Regular-length pants without hemming
-
+ 
 SHOES: Wide toe box. Block heels not stilettos. Round/almond toe. Best: Naturalizer, Sam Edelman, Cole Haan, Vionic. Size up ½ in new brands.
-
+ 
 BRANDS ($50–$150):
 - Office: Banana Republic, J.Crew, Mango, & Other Stories, Reiss (sale)
 - Casual: Reformation (sale), Everlane, Anthropologie, Sézane
 - Going out: Revolve (NBD, L+F), ASOS Premium, Abercrombie
 - Denim: Madewell petite high-rise #1 pick, Abercrombie Petite, AG Jeans
 - Always check petite sections first
-
+ 
 HAIR & FACE: Angular jaw, strong brows — can wear statement earrings. Gold hoops are her signature. Soft waves = best going-out look. Sleek low bun = best office look. Hair: neutral blonde territory, both warm balayage and champagne highlights work. Don't over-lighten roots — dark brows anchoring lighter hair is her strong look.
-
+ 
 LIFESTYLE: Corporate office + weekends + going out. Fort Lauderdale/South Florida climate.
-
+ 
 RESPONSE FORMAT:
 - Keep answers concise and scannable on mobile
 - Use **bold** for key pieces or rules
 - Give outfit formulas not paragraphs when possible
 - If asked for a shopping recommendation, include the brand and why it works for her body
 - If she gives you a vague prompt, make your best assumption and offer alternatives`;
-
+ 
 // ─── MODE CONFIGS ─────────────────────────────────────────────────────────────
 const modes = {
-  outfit: {
+  shop: {
+    system: BASE_SYSTEM + `\n\nCURRENT MODE: Live Shopping Search. The user wants to find REAL, SPECIFIC products available to buy right now.
+ 
+You have web search capability. For every shopping request:
+1. Search for the specific product at her preferred brands
+2. Filter mentally for: petite sizing available, her budget $50-$150, her body rules (high waist, v-neck, wrap, wide-leg, etc.), her colours (white, camel, navy, coral, terracotta, cobalt, emerald)
+3. Return 2-3 SPECIFIC products with: exact product name, brand, approximate price, direct URL if found, and ONE sentence on why it works for her body
+4. Always note if petite sizing is available
+5. If you can't find exact current inventory, give the best specific product name to search yourself
+ 
+Format each result as:
+**[Product Name]** — [Brand] — ~$[price]
+[One line: why it works for her body/colouring]
+[URL or "Search '[exact name]' on [brand].com"]`,
+    prompts: [
+      { label: "Find jeans", text: "Find me the best petite high-rise straight jeans available right now under $120" },
+      { label: "Work outfit", text: "Find me a work-appropriate top that works for my body, under $80" },
+      { label: "Going out dress", text: "Find me a going-out dress — wrap or v-neck, under $150, available now" },
+      { label: "White outfit", text: "Find me something in white or bright coral that suits my colouring, under $100" },
+    ],
+    chips: ["Under $75", "$75–$150", "Petite", "White", "Camel", "Navy", "Going out", "Office"]
+  },
     system: BASE_SYSTEM + "\n\nCURRENT MODE: Today's Outfit. Help her put together an outfit from what she likely has or can easily get. Ask about occasion, vibe, or weather if not specified. Give a specific outfit formula with 3-4 pieces.",
     prompts: [
       { label: "Today", text: "I need an outfit for today — work day, business casual" },
@@ -806,11 +983,11 @@ const modes = {
     chips: ["Hair cut", "Hair colour", "Earrings", "Necklaces", "Makeup", "Nails"]
   }
 };
-
+ 
 let currentMode = 'outfit';
 let history = [];
 let apiKey = '';
-
+ 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 function init() {
   apiKey = localStorage.getItem('sol-api-key') || '';
@@ -821,7 +998,7 @@ function init() {
   loadContextChips();
   loadLog();
 }
-
+ 
 function saveKey() {
   const key = document.getElementById('apiKeyInput').value.trim();
   if (!key.startsWith('sk-')) {
@@ -833,13 +1010,13 @@ function saveKey() {
   localStorage.setItem('sol-api-key', key);
   showApp();
 }
-
+ 
 function showApp() {
   document.getElementById('apiScreen').style.display = 'none';
   const app = document.getElementById('app');
   app.classList.add('visible');
 }
-
+ 
 // ─── MODE ──────────────────────────────────────────────────────────────────────
 function setMode(mode, btn) {
   currentMode = mode;
@@ -848,7 +1025,7 @@ function setMode(mode, btn) {
   loadQuickPrompts();
   loadContextChips();
 }
-
+ 
 function loadQuickPrompts() {
   const container = document.getElementById('quickPrompts');
   const modePrompts = modes[currentMode].prompts;
@@ -859,7 +1036,7 @@ function loadQuickPrompts() {
     </button>
   `).join('');
 }
-
+ 
 function loadContextChips() {
   const bar = document.getElementById('contextBar');
   const chips = modes[currentMode].chips;
@@ -867,7 +1044,7 @@ function loadContextChips() {
     <button class="context-chip" onclick="toggleChip(this, '${c}')">${c}</button>
   `).join('');
 }
-
+ 
 function toggleChip(btn, label) {
   btn.classList.toggle('active');
   const input = document.getElementById('chatInput');
@@ -876,7 +1053,7 @@ function toggleChip(btn, label) {
   }
   input.focus();
 }
-
+ 
 // ─── CHAT ──────────────────────────────────────────────────────────────────────
 function handleKey(e) {
   if (e.key === 'Enter' && !e.shiftKey) {
@@ -884,19 +1061,19 @@ function handleKey(e) {
     sendMessage();
   }
 }
-
+ 
 function autoResize(el) {
   el.style.height = 'auto';
   el.style.height = Math.min(el.scrollHeight, 120) + 'px';
 }
-
+ 
 async function sendQuick(text) {
   hideWelcome();
   appendMsg(text, 'user');
   history.push({ role: 'user', content: text });
   await getReply();
 }
-
+ 
 async function sendMessage() {
   const input = document.getElementById('chatInput');
   const text = input.value.trim();
@@ -908,12 +1085,12 @@ async function sendMessage() {
   history.push({ role: 'user', content: text });
   await getReply();
 }
-
+ 
 function hideWelcome() {
   const w = document.getElementById('welcome');
   if (w) w.style.display = 'none';
 }
-
+ 
 function appendMsg(text, role) {
   const container = document.getElementById('messages');
   const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -926,7 +1103,7 @@ function appendMsg(text, role) {
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
 }
-
+ 
 function formatText(text) {
   return text
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -934,31 +1111,44 @@ function formatText(text) {
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/\n/g, '<br>');
 }
-
+ 
 function escHtml(text) {
   return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 }
-
+ 
 async function getReply() {
   const btn = document.getElementById('sendBtn');
   btn.disabled = true;
-
+ 
   const container = document.getElementById('messages');
   const thinking = document.createElement('div');
   thinking.className = 'thinking-bubble';
   thinking.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
   container.appendChild(thinking);
   container.scrollTop = container.scrollHeight;
-
+ 
   // Build system with log context
   const log = getLog();
   const logContext = log.length > 0
     ? `\n\nHER STYLE LOG (what she's learned works/doesn't):\n${log.slice(-10).map(e => `- ${e.text}`).join('\n')}`
     : '';
-
+ 
   const systemPrompt = modes[currentMode].system + logContext;
-
+ 
   try {
+    const isShopMode = currentMode === 'shop';
+    const requestBody = {
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1500,
+      system: systemPrompt,
+      messages: history
+    };
+ 
+    // Add web search tool for shop mode
+    if (isShopMode) {
+      requestBody.tools = [{ type: 'web_search_20250305', name: 'web_search' }];
+    }
+ 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -967,37 +1157,37 @@ async function getReply() {
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true'
       },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: systemPrompt,
-        messages: history
-      })
+      body: JSON.stringify(requestBody)
     });
-
+ 
     const data = await res.json();
-
+ 
     if (data.error) {
       thinking.remove();
       appendMsg(`API error: ${data.error.message}`, 'assistant');
       btn.disabled = false;
       return;
     }
-
-    const reply = data.content?.[0]?.text || 'Something went wrong.';
+ 
+    // Extract text from response (handles tool use blocks)
+    const reply = data.content
+      ?.filter(b => b.type === 'text')
+      .map(b => b.text)
+      .join('\n') || 'Something went wrong.';
+ 
     history.push({ role: 'assistant', content: reply });
     thinking.remove();
     appendMsg(reply, 'assistant');
-
+ 
   } catch(e) {
     thinking.remove();
     appendMsg('Connection issue. Check your API key in settings.', 'assistant');
   }
-
+ 
   btn.disabled = false;
   document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
 }
-
+ 
 function clearChat() {
   history = [];
   const messages = document.getElementById('messages');
@@ -1014,20 +1204,20 @@ function clearChat() {
   messages.appendChild(welcome);
   loadQuickPrompts();
 }
-
+ 
 // ─── LOG ───────────────────────────────────────────────────────────────────────
 function getLog() {
   try { return JSON.parse(localStorage.getItem('sol-style-log') || '[]'); } catch(e) { return []; }
 }
-
+ 
 function saveLogData(log) {
   try { localStorage.setItem('sol-style-log', JSON.stringify(log)); } catch(e) {}
 }
-
+ 
 function loadLog() {
   renderLog();
 }
-
+ 
 function renderLog() {
   const log = getLog();
   const container = document.getElementById('logContent');
@@ -1045,11 +1235,11 @@ function renderLog() {
     </div>
   `).join('');
 }
-
+ 
 function escapeHtml(text) {
   return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
-
+ 
 function addLogEntry() {
   const input = document.getElementById('logInput');
   const text = input.value.trim();
@@ -1063,23 +1253,133 @@ function addLogEntry() {
   input.value = '';
   renderLog();
 }
-
+ 
 function deleteLogEntry(index) {
   const log = getLog();
   log.splice(index, 1);
   saveLogData(log);
   renderLog();
 }
-
+ 
 function openLog() {
   renderLog();
   document.getElementById('logPanel').classList.add('visible');
 }
-
+ 
 function closeLog() {
   document.getElementById('logPanel').classList.remove('visible');
 }
-
+ 
+// ─── WISHLIST ──────────────────────────────────────────────────────────────────
+function getWishlist() {
+  try { return JSON.parse(localStorage.getItem('sol-wishlist') || '[]'); } catch(e) { return []; }
+}
+ 
+function saveWishlist(list) {
+  try { localStorage.setItem('sol-wishlist', JSON.stringify(list)); } catch(e) {}
+}
+ 
+function renderWishlist() {
+  const list = getWishlist();
+  const container = document.getElementById('wishlistContent');
+  if (list.length === 0) {
+    container.innerHTML = '<div class="empty-log">No items yet.<br><br>Add pieces you\'re looking for and tap "Find Now" to search live availability.</div>';
+    return;
+  }
+  container.innerHTML = list.map((item, i) => `
+    <div class="wishlist-item" id="witem-${i}">
+      <div class="wishlist-item-top">
+        <div>
+          <div class="wishlist-item-brand">${escapeHtml(item.brand || 'Any brand')}</div>
+          <div class="wishlist-item-name">${escapeHtml(item.name)}</div>
+          ${item.note ? `<div class="wishlist-item-note">${escapeHtml(item.note)}</div>` : ''}
+        </div>
+      </div>
+      <div id="wresult-${i}"></div>
+      <div class="wishlist-actions">
+        <button class="wishlist-search-btn" id="wsearch-${i}" onclick="searchWishlistItem(${i})">Find Now</button>
+        <button class="wishlist-delete-btn" onclick="deleteWishlistItem(${i})">Remove</button>
+      </div>
+    </div>
+  `).join('');
+}
+ 
+function addWishlistItem() {
+  const name = document.getElementById('wishlistName').value.trim();
+  const note = document.getElementById('wishlistNote').value.trim();
+  if (!name) return;
+  const list = getWishlist();
+  list.push({ name, note, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) });
+  saveWishlist(list);
+  document.getElementById('wishlistName').value = '';
+  document.getElementById('wishlistNote').value = '';
+  renderWishlist();
+}
+ 
+function deleteWishlistItem(i) {
+  const list = getWishlist();
+  list.splice(i, 1);
+  saveWishlist(list);
+  renderWishlist();
+}
+ 
+async function searchWishlistItem(i) {
+  const list = getWishlist();
+  const item = list[i];
+  const btn = document.getElementById(`wsearch-${i}`);
+  const resultEl = document.getElementById(`wresult-${i}`);
+  btn.disabled = true;
+  btn.textContent = 'Searching...';
+  resultEl.innerHTML = `<div class="wishlist-result"><div class="search-indicator"><div class="search-dot"></div> Searching live...</div></div>`;
+ 
+  const searchPrompt = `Search for this specific item for Sol and find current availability and price:
+Item: ${item.name}
+Notes: ${item.note || 'none'}
+ 
+Sol's profile: petite (5'3"), size 7-7.5 wide shoes, budget $50-$150, neutral spring colouring (white, camel, navy, coral work great). Body: inverted triangle, defined waist — needs petite sizing, high waist, v-neck or wrap styles.
+ 
+Search for this item at her brands (Madewell, Banana Republic, J.Crew, Reformation, Anthropologie, Abercrombie, Everlane, Mango, & Other Stories, ASOS).
+ 
+Return: exact product name, brand, current price, whether petite is available, and a direct link. Be concise — 3-4 lines max.`;
+ 
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: searchPrompt }]
+      })
+    });
+ 
+    const data = await res.json();
+    const text = data.content?.filter(b => b.type === 'text').map(b => b.text).join('\n') || 'No results found.';
+    resultEl.innerHTML = `<div class="wishlist-result">${formatText(text)}</div>`;
+ 
+  } catch(e) {
+    resultEl.innerHTML = `<div class="wishlist-result">Search failed — check your connection.</div>`;
+  }
+ 
+  btn.disabled = false;
+  btn.textContent = 'Search Again';
+}
+ 
+function openWishlist() {
+  renderWishlist();
+  document.getElementById('wishlistPanel').classList.add('visible');
+}
+ 
+function closeWishlist() {
+  document.getElementById('wishlistPanel').classList.remove('visible');
+}
+ 
 // ─── START ────────────────────────────────────────────────────────────────────
 init();
 </script>
