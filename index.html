@@ -3,1401 +3,650 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0F0A06">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#F7F4EF">
 <title>Sol — My Stylist</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0F0A06;
-    --surface: #1A1208;
-    --surface2: #221A0E;
-    --border: rgba(196,154,108,0.15);
-    --camel: #C49A6C;
-    --camel-dim: rgba(196,154,108,0.6);
-    --terracotta: #C17A5A;
-    --text: #E8DDD0;
-    --text-dim: #8A7A6A;
-    --text-bright: #F5EDD8;
-    --white: #FFFFFF;
-    --input-bg: rgba(255,255,255,0.05);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-  html, body {
-    height: 100%;
-    height: -webkit-fill-available;
-    overflow: hidden;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-  }
-
-  /* API KEY SCREEN */
-  #apiScreen {
-    position: fixed;
-    inset: 0;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 32px 24px;
-    z-index: 100;
-  }
-
-  #apiScreen h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 36px;
-    font-weight: 300;
-    color: var(--text-bright);
-    margin-bottom: 8px;
-    text-align: center;
-  }
-
-  #apiScreen h1 em { font-style: italic; color: var(--camel); }
-
-  #apiScreen p {
-    font-size: 13px;
-    color: var(--text-dim);
-    text-align: center;
-    margin-bottom: 32px;
-    line-height: 1.7;
-    max-width: 300px;
-  }
-
-  #apiKeyInput {
-    width: 100%;
-    max-width: 360px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 14px 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    outline: none;
-    border-radius: 4px;
-    margin-bottom: 12px;
-    letter-spacing: 0.5px;
-  }
-
-  #apiKeyInput:focus { border-color: var(--camel); }
-  #apiKeyInput::placeholder { color: var(--text-dim); }
-
-  #saveKeyBtn {
-    width: 100%;
-    max-width: 360px;
-    background: var(--camel);
-    color: var(--bg);
-    border: none;
-    padding: 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s;
-  }
-
-  #saveKeyBtn:hover { background: var(--terracotta); }
-
-  .api-note {
-    font-size: 11px;
-    color: var(--text-dim);
-    text-align: center;
-    margin-top: 16px;
-    max-width: 300px;
-    line-height: 1.6;
-  }
-
-  .api-note a { color: var(--camel); text-decoration: none; }
-
-  /* MAIN APP */
-  #app {
-    display: none;
-    flex-direction: column;
-    height: 100%;
-    height: -webkit-fill-available;
-    max-width: 640px;
-    margin: 0 auto;
-  }
-
-  #app.visible { display: flex; }
-
-  /* HEADER */
-  .app-header {
-    padding: 16px 20px 12px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-    background: var(--bg);
-  }
-
-  .app-header-left h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 300;
-    color: var(--text-bright);
-    line-height: 1;
-  }
-
-  .app-header-left h1 em { font-style: italic; color: var(--camel); }
-
-  .app-header-left .subtitle {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-top: 3px;
-  }
-
-  .header-actions { display: flex; gap: 8px; }
-
-  .header-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--camel-dim);
-    padding: 6px 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: all 0.2s;
-  }
-
-  .header-btn:hover { border-color: var(--camel); color: var(--camel); }
-
-  /* MODE TABS */
-  .mode-tabs {
-    display: flex;
-    padding: 10px 16px;
-    gap: 6px;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-    background: var(--bg);
-  }
-
-  .mode-tabs::-webkit-scrollbar { display: none; }
-
-  .mode-tab {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    padding: 6px 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 20px;
-    white-space: nowrap;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-
-  .mode-tab.active {
-    background: var(--camel);
-    border-color: var(--camel);
-    color: var(--bg);
-    font-weight: 500;
-  }
-
-  .mode-tab:not(.active):hover { border-color: var(--camel-dim); color: var(--camel-dim); }
-
-  /* MESSAGES */
-  .messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .messages::-webkit-scrollbar { width: 3px; }
-  .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  /* WELCOME */
-  .welcome {
-    text-align: center;
-    padding: 24px 16px;
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .welcome-icon {
-    font-size: 32px;
-    margin-bottom: 12px;
-  }
-
-  .welcome h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
-    font-weight: 300;
-    color: var(--text-bright);
-    margin-bottom: 8px;
-  }
-
-  .welcome h2 em { font-style: italic; color: var(--camel); }
-
-  .welcome p {
-    font-size: 13px;
-    color: var(--text-dim);
-    line-height: 1.7;
-    max-width: 300px;
-    margin: 0 auto 20px;
-  }
-
-  /* QUICK PROMPTS */
-  .quick-prompts {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 4px;
-  }
-
-  .quick-prompt {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 12px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 300;
-    text-align: left;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s;
-    line-height: 1.4;
-  }
-
-  .quick-prompt:hover {
-    border-color: var(--camel);
-    color: var(--text-bright);
-    background: var(--surface2);
-  }
-
-  .quick-prompt .prompt-label {
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--camel-dim);
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  /* MESSAGES */
-  .msg {
-    display: flex;
-    flex-direction: column;
-    animation: fadeUp 0.3s ease both;
-    max-width: 88%;
-  }
-
-  .msg.user { align-self: flex-end; }
-  .msg.assistant { align-self: flex-start; }
-
-  .msg-bubble {
-    padding: 12px 16px;
-    border-radius: 4px;
-    font-size: 14px;
-    line-height: 1.65;
-  }
-
-  .msg.user .msg-bubble {
-    background: rgba(196,154,108,0.12);
-    border: 1px solid rgba(196,154,108,0.2);
-    color: var(--text-bright);
-    border-bottom-right-radius: 1px;
-  }
-
-  .msg.assistant .msg-bubble {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-bottom-left-radius: 1px;
-  }
-
-  .msg.assistant .msg-bubble strong { color: var(--camel); font-weight: 500; }
-  .msg.assistant .msg-bubble em { color: var(--text-bright); font-style: italic; }
-
-  .msg-time {
-    font-size: 10px;
-    color: var(--text-dim);
-    margin-top: 4px;
-    padding: 0 4px;
-  }
-
-  .msg.user .msg-time { text-align: right; }
-
-  /* THINKING */
-  .thinking-bubble {
-    align-self: flex-start;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 14px 18px;
-    border-radius: 4px;
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    animation: fadeUp 0.3s ease both;
-  }
-
-  .dot {
-    width: 5px;
-    height: 5px;
-    background: var(--camel-dim);
-    border-radius: 50%;
-    animation: pulse 1.2s ease infinite;
-  }
-
-  .dot:nth-child(2) { animation-delay: 0.2s; }
-  .dot:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.3; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1); }
-  }
-
-  /* INPUT AREA */
-  .input-area {
-    padding: 12px 16px 20px;
-    border-top: 1px solid var(--border);
-    flex-shrink: 0;
-    background: var(--bg);
-  }
-
-  /* Context bar */
-  .context-bar {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 10px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .context-bar::-webkit-scrollbar { display: none; }
-
-  .context-chip {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    padding: 4px 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 20px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition: all 0.2s;
-  }
-
-  .context-chip.active {
-    background: var(--surface2);
-    border-color: var(--camel-dim);
-    color: var(--camel);
-  }
-
-  .input-row {
-    display: flex;
-    gap: 8px;
-    align-items: flex-end;
-  }
-
-  .chat-input {
-    flex: 1;
-    background: var(--input-bg);
-    border: 1px solid var(--border);
-    color: var(--text-bright);
-    padding: 12px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 300;
-    outline: none;
-    border-radius: 24px;
-    resize: none;
-    max-height: 120px;
-    min-height: 46px;
-    transition: border-color 0.2s;
-    line-height: 1.5;
-    -webkit-appearance: none;
-  }
-
-  .chat-input::placeholder { color: var(--text-dim); }
-  .chat-input:focus { border-color: var(--camel); }
-
-  .send-btn {
-    width: 46px;
-    height: 46px;
-    min-width: 46px;
-    background: var(--camel);
-    border: none;
-    color: var(--bg);
-    cursor: pointer;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, transform 0.1s;
-    flex-shrink: 0;
-  }
-
-  .send-btn:hover { background: var(--terracotta); }
-  .send-btn:active { transform: scale(0.95); }
-  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  .send-btn svg { width: 18px; height: 18px; }
-
-  /* LOG PANEL */
-  #logPanel {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: var(--bg);
-    z-index: 50;
-    flex-direction: column;
-    max-width: 640px;
-    margin: 0 auto;
-  }
-
-  #logPanel.visible { display: flex; }
-
-  .panel-header {
-    padding: 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .panel-header h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 300;
-    color: var(--text-bright);
-  }
-
-  .close-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    border-radius: 50%;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-  }
-
-  .close-btn:hover { border-color: var(--camel); color: var(--camel); }
-
-  .log-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .log-entry {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .log-entry-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; }
-  .log-entry-date { font-size: 10px; color: var(--text-dim); white-space: nowrap; margin-top: 2px; }
-
-  .log-delete {
-    background: transparent;
-    border: none;
-    color: var(--text-dim);
-    cursor: pointer;
-    font-size: 16px;
-    padding: 0 4px;
-    transition: color 0.2s;
-    flex-shrink: 0;
-  }
-
-  .log-delete:hover { color: var(--terracotta); }
-
-  .log-input-area {
-    padding: 16px 20px 24px;
-    border-top: 1px solid var(--border);
-  }
-
-  .log-input {
-    width: 100%;
-    background: var(--input-bg);
-    border: 1px solid var(--border);
-    color: var(--text-bright);
-    padding: 12px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    outline: none;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    -webkit-appearance: none;
-    transition: border-color 0.2s;
-  }
-
-  .log-input:focus { border-color: var(--camel); }
-  .log-input::placeholder { color: var(--text-dim); }
-
-  .log-add-btn {
-    width: 100%;
-    background: var(--camel);
-    color: var(--bg);
-    border: none;
-    padding: 13px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s;
-  }
-
-  .log-add-btn:hover { background: var(--terracotta); }
-
-  .empty-log {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-dim);
-    font-size: 13px;
-    line-height: 1.8;
-  }
-
-  .log-tip {
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-bottom: 14px;
-    line-height: 1.6;
-    padding: 10px 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-  }
-
-  /* WISHLIST PANEL */
-  #wishlistPanel {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: var(--bg);
-    z-index: 50;
-    flex-direction: column;
-    max-width: 640px;
-    margin: 0 auto;
-  }
-  #wishlistPanel.visible { display: flex; }
-
-  .wishlist-content { flex: 1; overflow-y: auto; padding: 16px 20px; -webkit-overflow-scrolling: touch; }
-
-  .wishlist-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
-  }
-
-  .wishlist-item-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-
-  .wishlist-item-name { font-size: 13px; color: var(--text-bright); line-height: 1.4; flex: 1; font-weight: 400; }
-  .wishlist-item-brand { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--camel-dim); margin-bottom: 4px; }
-  .wishlist-item-note { font-size: 12px; color: var(--text-dim); line-height: 1.4; }
-
-  .wishlist-actions { display: flex; gap: 6px; margin-top: 10px; }
-
-  .wishlist-search-btn {
-    background: var(--camel);
-    color: var(--bg);
-    border: none;
-    padding: 7px 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: background 0.2s;
-    flex: 1;
-  }
-  .wishlist-search-btn:hover { background: var(--terracotta); }
-  .wishlist-search-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .wishlist-delete-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    padding: 7px 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: all 0.2s;
-  }
-  .wishlist-delete-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
-
-  .wishlist-result {
-    margin-top: 10px;
-    padding: 10px 12px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    font-size: 12px;
-    color: var(--text);
-    line-height: 1.6;
-  }
-  .wishlist-result strong { color: var(--camel); }
-  .wishlist-result a { color: var(--camel); text-decoration: underline; }
-
-  .wishlist-add-area { padding: 14px 20px 24px; border-top: 1px solid var(--border); }
-  .wishlist-tip { font-size: 11px; color: var(--text-dim); margin-bottom: 12px; line-height: 1.6; }
-
-  .wishlist-form { display: flex; flex-direction: column; gap: 8px; }
-
-  .wishlist-input {
-    width: 100%;
-    background: var(--input-bg);
-    border: 1px solid var(--border);
-    color: var(--text-bright);
-    padding: 11px 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 300;
-    outline: none;
-    border-radius: 4px;
-    -webkit-appearance: none;
-    transition: border-color 0.2s;
-  }
-  .wishlist-input:focus { border-color: var(--camel); }
-  .wishlist-input::placeholder { color: var(--text-dim); }
-
-  .wishlist-add-btn {
-    width: 100%;
-    background: var(--camel);
-    color: var(--bg);
-    border: none;
-    padding: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s;
-  }
-  .wishlist-add-btn:hover { background: var(--terracotta); }
-
-  .search-indicator {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--camel-dim);
-    font-style: italic;
-    margin-bottom: 6px;
-  }
-
-  .search-dot {
-    width: 5px; height: 5px;
-    background: var(--camel);
-    border-radius: 50%;
-    animation: pulse 1s ease infinite;
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* SCROLLBAR */
-  * { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+:root {
+  --bg:#F7F4EF; --surface:#FFFFFF; --surface2:#F0EDE8;
+  --border:#E5DFD8; --border2:#D4CBC0;
+  --accent:#B07D5A; --accent2:#C89678; --accent-light:#F0E8E0;
+  --red:#C05A4A; --green:#388E3C;
+  --text:#2A2118; --text2:#6B5D52; --text3:#9E8E82;
+  --shadow:0 2px 12px rgba(42,33,24,0.08);
+  --shadow2:0 4px 24px rgba(42,33,24,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;font-weight:400;}
+
+/* API SCREEN */
+#apiScreen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;z-index:100;}
+.api-logo{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--text);margin-bottom:4px;text-align:center;}
+.api-logo em{font-style:italic;color:var(--accent);}
+.api-tag{font-size:12px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:36px;text-align:center;}
+.api-box{width:100%;max-width:380px;background:#fff;border-radius:18px;padding:28px;box-shadow:var(--shadow2);}
+.api-box label{display:block;font-size:11px;font-weight:700;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+#apiKeyInput{width:100%;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:13px 16px;font-family:'Nunito',sans-serif;font-size:14px;border-radius:10px;outline:none;margin-bottom:14px;transition:border-color 0.2s;}
+#apiKeyInput:focus{border-color:var(--accent);}
+#apiKeyInput::placeholder{color:var(--text3);}
+#saveKeyBtn{width:100%;background:var(--accent);color:#fff;border:none;padding:14px;border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.2s;}
+#saveKeyBtn:hover{background:var(--red);}
+.api-note{font-size:12px;color:var(--text3);text-align:center;margin-top:18px;line-height:1.7;max-width:300px;}
+.api-note a{color:var(--accent);text-decoration:none;}
+
+/* APP */
+#app{display:none;flex-direction:column;height:100%;height:-webkit-fill-available;max-width:680px;margin:0 auto;background:var(--bg);}
+#app.visible{display:flex;}
+
+/* HEADER */
+.app-header{padding:13px 16px 10px;background:#fff;border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.htitle{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;color:var(--text);line-height:1;}
+.htitle em{font-style:italic;color:var(--accent);}
+.hsub{font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.hbtns{display:flex;gap:5px;}
+.hbtn{background:var(--bg);border:1.5px solid var(--border);color:var(--text2);padding:6px 10px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border-radius:8px;transition:all 0.2s;white-space:nowrap;}
+.hbtn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+.hbtn.key{color:var(--red);border-color:#EDD5D0;}
+.hbtn.key:hover{background:#FAEAE8;border-color:var(--red);}
+
+/* TABS */
+.tabs{display:flex;padding:9px 14px;gap:6px;background:#fff;border-bottom:1.5px solid var(--border);flex-shrink:0;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{background:transparent;border:1.5px solid var(--border);color:var(--text2);padding:6px 14px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border-radius:20px;white-space:nowrap;transition:all 0.2s;flex-shrink:0;}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.tab:not(.active):hover{border-color:var(--accent2);color:var(--accent);background:var(--accent-light);}
+
+/* MESSAGES */
+.msgs{flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:14px;-webkit-overflow-scrolling:touch;}
+.msgs::-webkit-scrollbar{width:4px;}
+.msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+
+/* WELCOME */
+.welcome{display:flex;flex-direction:column;align-items:center;padding:18px 6px 6px;animation:fadeUp 0.5s ease both;}
+.wi{font-size:28px;margin-bottom:10px;}
+.welcome h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:400;color:var(--text);text-align:center;margin-bottom:8px;line-height:1.3;}
+.welcome h2 em{font-style:italic;color:var(--accent);}
+.welcome p{font-size:14px;color:var(--text2);line-height:1.6;text-align:center;max-width:280px;margin-bottom:20px;}
+.qps{display:flex;flex-direction:column;gap:8px;width:100%;}
+.qp{background:#fff;border:1.5px solid var(--border);color:var(--text);padding:13px 16px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:400;text-align:left;cursor:pointer;border-radius:12px;transition:all 0.2s;line-height:1.4;box-shadow:0 1px 4px rgba(42,33,24,0.04);}
+.qp:hover{border-color:var(--accent);background:var(--accent-light);}
+.ql{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent2);margin-bottom:3px;}
+
+/* BUBBLES */
+.msg{display:flex;flex-direction:column;max-width:86%;animation:fadeUp 0.3s ease both;}
+.msg.user{align-self:flex-end;}
+.msg.assistant{align-self:flex-start;}
+.bubble{padding:13px 16px;border-radius:16px;font-size:15px;line-height:1.7;}
+.msg.user .bubble{background:var(--accent);color:#fff;border-bottom-right-radius:4px;}
+.msg.assistant .bubble{background:#fff;color:var(--text);border:1.5px solid var(--border);border-bottom-left-radius:4px;box-shadow:0 1px 6px rgba(42,33,24,0.06);}
+.msg.assistant .bubble strong{color:var(--accent);font-weight:600;}
+.msg.assistant .bubble em{color:var(--text);font-style:italic;}
+.mfoot{display:flex;align-items:center;gap:8px;margin-top:4px;padding:0 4px;}
+.msg.user .mfoot{justify-content:flex-end;}
+.mtime{font-size:11px;color:var(--text3);}
+.save-btn{background:var(--accent-light);border:1px solid var(--accent2);color:var(--accent);padding:3px 10px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border-radius:6px;transition:all 0.2s;white-space:nowrap;}
+.save-btn:hover{background:var(--accent);color:#fff;}
+.save-btn.saved{background:#E8F5E9;border-color:#81C784;color:var(--green);}
+
+/* THINKING */
+.thinking{align-self:flex-start;background:#fff;border:1.5px solid var(--border);padding:14px 18px;border-radius:16px;border-bottom-left-radius:4px;display:flex;gap:5px;align-items:center;box-shadow:0 1px 6px rgba(42,33,24,0.06);animation:fadeUp 0.3s ease both;}
+.dot{width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:bounce 1.2s ease infinite;}
+.dot:nth-child(2){animation-delay:0.18s;}
+.dot:nth-child(3){animation-delay:0.36s;}
+@keyframes bounce{0%,100%{transform:translateY(0);opacity:0.4;}50%{transform:translateY(-4px);opacity:1;}}
+
+/* INPUT */
+.iarea{padding:10px 14px 18px;background:#fff;border-top:1.5px solid var(--border);flex-shrink:0;}
+.chips{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.chips::-webkit-scrollbar{display:none;}
+.chip{background:transparent;border:1.5px solid var(--border);color:var(--text2);padding:4px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border-radius:20px;white-space:nowrap;flex-shrink:0;transition:all 0.2s;}
+.chip.active{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.irow{display:flex;gap:10px;align-items:flex-end;}
+.cinput{flex:1;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:12px 16px;font-family:'Nunito',sans-serif;font-size:15px;outline:none;border-radius:24px;resize:none;max-height:120px;min-height:48px;transition:border-color 0.2s;line-height:1.5;-webkit-appearance:none;}
+.cinput::placeholder{color:var(--text3);}
+.cinput:focus{border-color:var(--accent);}
+.sbtn{width:48px;height:48px;min-width:48px;background:var(--accent);border:none;color:#fff;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.1s;flex-shrink:0;box-shadow:0 2px 8px rgba(176,125,90,0.35);}
+.sbtn:hover{background:var(--red);}
+.sbtn:active{transform:scale(0.94);}
+.sbtn:disabled{opacity:0.45;cursor:not-allowed;box-shadow:none;}
+.sbtn svg{width:19px;height:19px;}
+
+/* PANELS */
+.panel{display:none;position:fixed;inset:0;background:var(--bg);z-index:50;flex-direction:column;max-width:680px;margin:0 auto;}
+.panel.open{display:flex;}
+.ph{padding:16px 18px;background:#fff;border-bottom:1.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.ph h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;color:var(--text);}
+.pcls{background:var(--bg);border:1.5px solid var(--border);color:var(--text2);width:34px;height:34px;cursor:pointer;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.pcls:hover{border-color:var(--red);color:var(--red);}
+.pbody{flex:1;overflow-y:auto;padding:14px 16px;-webkit-overflow-scrolling:touch;}
+.pfoot{padding:13px 16px 22px;background:#fff;border-top:1.5px solid var(--border);flex-shrink:0;}
+
+/* HISTORY */
+.hi{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all 0.2s;box-shadow:0 1px 4px rgba(42,33,24,0.04);}
+.hi:hover{border-color:var(--accent);box-shadow:var(--shadow);}
+.hi-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.hi-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.3;}
+.hi-date{font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0;}
+.hi-preview{font-size:13px;color:var(--text2);margin-top:5px;line-height:1.5;}
+.hi-mode{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:6px;margin-top:7px;}
+.hdel{background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:0 2px;transition:color 0.2s;flex-shrink:0;}
+.hdel:hover{color:var(--red);}
+
+/* LOG */
+.li{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:13px 15px;margin-bottom:9px;display:flex;gap:10px;justify-content:space-between;align-items:flex-start;box-shadow:0 1px 4px rgba(42,33,24,0.04);}
+.li.auto{border-left:3px solid var(--accent2);}
+.li-text{font-size:14px;color:var(--text);line-height:1.5;flex:1;}
+.li-meta{font-size:11px;color:var(--text3);margin-top:3px;}
+.ldel{background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:0 2px;transition:color 0.2s;flex-shrink:0;}
+.ldel:hover{color:var(--red);}
+.tip{background:var(--accent-light);border:1.5px solid var(--accent2);border-radius:10px;padding:11px 14px;font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:13px;}
+
+/* WISHLIST */
+.wi-item{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(42,33,24,0.04);}
+.wi-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.wi-note{font-size:13px;color:var(--text2);line-height:1.5;}
+.wi-res{margin-top:10px;padding:10px 13px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);line-height:1.6;}
+.wi-res strong{color:var(--accent);}
+.wi-res a{color:var(--accent);text-decoration:underline;}
+.wi-acts{display:flex;gap:8px;margin-top:11px;}
+.wi-find{flex:1;background:var(--accent);color:#fff;border:none;padding:9px 14px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border-radius:8px;transition:background 0.2s;}
+.wi-find:hover{background:var(--red);}
+.wi-find:disabled{opacity:0.5;cursor:not-allowed;}
+.wi-del{background:var(--bg);border:1.5px solid var(--border);color:var(--text2);padding:9px 14px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border-radius:8px;transition:all 0.2s;}
+.wi-del:hover{border-color:var(--red);color:var(--red);}
+
+/* SHARED FORM */
+.flabel{display:block;font-size:11px;font-weight:700;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;margin-top:12px;}
+.finput{width:100%;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:12px 15px;font-family:'Nunito',sans-serif;font-size:14px;outline:none;border-radius:10px;margin-bottom:9px;transition:border-color 0.2s;-webkit-appearance:none;}
+.finput:focus{border-color:var(--accent);}
+.finput::placeholder{color:var(--text3);}
+.btnp{width:100%;background:var(--accent);color:#fff;border:none;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border-radius:10px;transition:background 0.2s;}
+.btnp:hover{background:var(--red);}
+
+/* EMPTY */
+.empty{text-align:center;padding:44px 20px;color:var(--text3);font-size:14px;line-height:1.8;}
+.empty .eicon{font-size:32px;margin-bottom:12px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--text);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:all 0.3s;z-index:300;white-space:nowrap;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+*{scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
 </style>
 </head>
 <body>
 
-<!-- API KEY SCREEN -->
 <div id="apiScreen">
-  <h1>Sol's <em>Stylist</em></h1>
-  <p>Enter your Anthropic API key to get started. It's stored only on your device.</p>
-  <input type="password" id="apiKeyInput" placeholder="sk-ant-..." autocomplete="off" autocorrect="off" spellcheck="false"/>
-  <button id="saveKeyBtn" onclick="saveKey()">Start →</button>
-  <p class="api-note">
-    Get your key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br>
-    Your key never leaves your device.
-  </p>
+  <div class="api-logo">Sol's <em>Stylist</em></div>
+  <div class="api-tag">Your personal AI wardrobe</div>
+  <div class="api-box">
+    <label>Anthropic API Key</label>
+    <input type="password" id="apiKeyInput" placeholder="Paste your key here..." autocomplete="off" autocorrect="off" spellcheck="false"/>
+    <button id="saveKeyBtn" onclick="saveKey()">Get Started &rarr;</button>
+  </div>
+  <p class="api-note">Get your key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br>Stored only on this device &mdash; never shared.</p>
 </div>
 
-<!-- MAIN APP -->
 <div id="app">
-
   <div class="app-header">
-    <div class="app-header-left">
-      <h1>Sol's <em>Stylist</em></h1>
-      <div class="subtitle">Always knows you</div>
+    <div>
+      <div class="htitle">Sol's <em>Stylist</em></div>
+      <div class="hsub">Always knows you</div>
     </div>
-    <div class="header-actions">
-      <button class="header-btn" onclick="openWishlist()">Wishlist</button>
-      <button class="header-btn" onclick="openLog()">My Log</button>
-      <button class="header-btn" onclick="clearChat()">New</button>
-      <button class="header-btn" onclick="resetKey()" style="color:var(--terracotta)">Key</button>
-    </div>
-  </div>
-
-  <div class="mode-tabs">
-    <button class="mode-tab active" onclick="setMode('outfit', this)">Today's Outfit</button>
-    <button class="mode-tab" onclick="setMode('shop', this)">🔍 Shop Now</button>
-    <button class="mode-tab" onclick="setMode('shopping', this)">Shopping</button>
-    <button class="mode-tab" onclick="setMode('trip', this)">Trip Packing</button>
-    <button class="mode-tab" onclick="setMode('capsule', this)">Wardrobe</button>
-    <button class="mode-tab" onclick="setMode('hair', this)">Hair & Styling</button>
-  </div>
-
-  <div class="messages" id="messages">
-    <div class="welcome" id="welcome">
-      <div class="welcome-icon">✦</div>
-      <h2>Hi Sol, what are<br>we <em>styling</em> today?</h2>
-      <p>I know your measurements, your colours, and what works for your body.</p>
-      <div class="quick-prompts" id="quickPrompts"></div>
+    <div class="hbtns">
+      <button class="hbtn" onclick="openHistory()">History</button>
+      <button class="hbtn" onclick="openWishlist()">Wishlist</button>
+      <button class="hbtn" onclick="openLog()">Log</button>
+      <button class="hbtn" onclick="newChat()">New</button>
+      <button class="hbtn key" onclick="resetKey()">Key</button>
     </div>
   </div>
 
-  <div class="input-area">
-    <div class="context-bar" id="contextBar"></div>
-    <div class="input-row">
-      <textarea
-        class="chat-input"
-        id="chatInput"
-        placeholder="Ask your stylist..."
-        rows="1"
-        onkeydown="handleKey(event)"
-        oninput="autoResize(this)"
-      ></textarea>
-      <button class="send-btn" id="sendBtn" onclick="sendMessage()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="22" y1="2" x2="11" y2="13"></line>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+  <div class="tabs">
+    <button class="tab active" onclick="setMode('outfit',this)">Outfit</button>
+    <button class="tab" onclick="setMode('shop',this)">Shop Live</button>
+    <button class="tab" onclick="setMode('advice',this)">Advice</button>
+    <button class="tab" onclick="setMode('packing',this)">Packing</button>
+    <button class="tab" onclick="setMode('wardrobe',this)">Wardrobe</button>
+    <button class="tab" onclick="setMode('hair',this)">Hair</button>
+  </div>
+
+  <div class="msgs" id="msgs"></div>
+
+  <div class="iarea">
+    <div class="chips" id="chips"></div>
+    <div class="irow">
+      <textarea class="cinput" id="cinput" placeholder="Ask your stylist..." rows="1"
+        onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <button class="sbtn" id="sbtn" onclick="send()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
         </svg>
       </button>
     </div>
   </div>
-
 </div>
 
-<!-- LOG PANEL -->
-<div id="logPanel">
-  <div class="panel-header">
-    <h2>Style Log ✦</h2>
-    <button class="close-btn" onclick="closeLog()">×</button>
-  </div>
-  <div class="log-content" id="logContent"></div>
-  <div class="log-input-area">
-    <p class="log-tip">Log what worked, what didn't, and sizes that fit. This makes your stylist smarter over time.</p>
-    <input type="text" class="log-input" id="logInput" placeholder="e.g. White wrap dress — got compliments, felt great" onkeydown="if(event.key==='Enter') addLogEntry()"/>
-    <button class="log-add-btn" onclick="addLogEntry()">Add to Log</button>
+<!-- HISTORY -->
+<div class="panel" id="histPanel">
+  <div class="ph"><h2>Conversations</h2><button class="pcls" onclick="closeHistory()">x</button></div>
+  <div class="pbody" id="histBody"></div>
+</div>
+
+<!-- LOG -->
+<div class="panel" id="logPanel">
+  <div class="ph"><h2>Style Log</h2><button class="pcls" onclick="closeLog()">x</button></div>
+  <div class="pbody" id="logBody"></div>
+  <div class="pfoot">
+    <div class="tip">Your stylist reads this log every session. Auto-learnings are marked with a side stripe.</div>
+    <label class="flabel">Add a note</label>
+    <input type="text" class="finput" id="logInput" placeholder='e.g. White wrap dress - got compliments' onkeydown="if(event.key==='Enter') addLog()"/>
+    <button class="btnp" onclick="addLog()">Add to Log</button>
   </div>
 </div>
 
-<!-- WISHLIST PANEL -->
-<div id="wishlistPanel">
-  <div class="panel-header">
-    <h2>Wishlist ✦</h2>
-    <button class="close-btn" onclick="closeWishlist()">×</button>
-  </div>
-  <div class="wishlist-content" id="wishlistContent"></div>
-  <div class="wishlist-add-area">
-    <p class="wishlist-tip">Save items you want. Tap "Find Now" to search live prices and availability.</p>
-    <div class="wishlist-form">
-      <input type="text" class="wishlist-input" id="wishlistName" placeholder="Item name — e.g. Madewell petite straight jeans"/>
-      <input type="text" class="wishlist-input" id="wishlistNote" placeholder="Notes — e.g. dark wash, under $120"/>
-      <button class="wishlist-add-btn" onclick="addWishlistItem()">Add to Wishlist</button>
-    </div>
+<!-- WISHLIST -->
+<div class="panel" id="wishPanel">
+  <div class="ph"><h2>Wishlist</h2><button class="pcls" onclick="closeWishlist()">x</button></div>
+  <div class="pbody" id="wishBody"></div>
+  <div class="pfoot">
+    <label class="flabel">Add item</label>
+    <input type="text" class="finput" id="wname" placeholder="e.g. Petite wrap dress in terracotta"/>
+    <input type="text" class="finput" id="wnote" placeholder="Notes - brand, price limit, colour..."/>
+    <button class="btnp" onclick="addWish()">Save to Wishlist</button>
   </div>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-// ─── SYSTEM PROMPT ───────────────────────────────────────────────────────────
-const BASE_SYSTEM = `You are Sol's personal AI stylist. You know everything about her. Never ask for information you already have. Be direct, specific, and warm — like a knowledgeable friend, not a textbook.
+const SYS = `You are Sol's personal AI stylist. You know everything about her. Never ask for info you already have. Be direct, warm, specific like a knowledgeable friend.
 
-HER COMPLETE PROFILE:
+BODY: 5'3" petite (regular pants always too long - buy petite/ankle). Shoulder 39.6in (broader than hips). Bust 31.7in. Waist 26.3in (well-defined - her best asset). Hips 34.0in. Torso 15.5in (short). Inseam 26.5in. Ankle 8.7in (slender). Shoe US 7-7.5 WIDE WIDTH (feet swell on long walks - no pointed toe for long days). Goal: celebrate waist, balance shoulder-to-hip, elongate short torso.
 
-BODY:
-- Height: 5'3" — petite. Regular-length pants are always too long. Buy petite or ankle cuts.
-- Shoulder: 39.6in (broader than hips — inverted triangle tendency)
-- Bust: 31.7in | Waist: 26.3in (well-defined — her best asset) | Hips: 34.0in
-- Torso: 15.5in (short) | Inseam: 26.5in | Ankle: 8.7in (slender)
-- Shoe: US 7–7.5 WIDE WIDTH. Feet swell with extended walking — no pointed toe for long days.
-- Body goal: celebrate waist, balance shoulder-to-hip ratio, elongate short torso.
+COLOUR: Neutral Spring. High contrast - dark brows, warm brown eyes, light neutral skin. Bright white looks excellent (confirmed from photos). Best: bright white, warm ivory, camel, navy, bright coral red, coral, terracotta, soft blush, bright teal, cobalt, emerald, warm olive. KEY: clear/bright over muted/dusty. Avoid: lavender, fuchsia, cool gray, icy pastels. Gold jewelry primary.
 
-COLOUR: Neutral Spring. High contrast — dark brows, warm brown eyes, light neutral skin.
-- Bright white looks excellent on her (confirmed). Navy, camel, warm ivory are core neutrals.
-- Best colours: bright white, warm ivory, camel, navy, bright coral red, coral, terracotta, soft blush, bright teal, bright cobalt, emerald, warm olive.
-- KEY RULE: clear/bright colours over muted/dusty — she carries saturation well.
-- Avoid: lavender, fuchsia, cool gray, icy pastels, muddy taupes.
-- Gold jewelry primary. Silver and mixed metals can also work.
+WORKS: V-necks, scoop necks, wrap silhouettes. High-waisted everything. A-line, fit-and-flare, wide-leg trousers. Petite/ankle-length only. Tonal outfits (elongates torso). Fitted waist-nipped blazers. Bold prints on bottom only. Midi hemlines most elegant, mini for going out.
 
-WHAT WORKS ON HER BODY:
-- V-necks, scoop necks, wrap silhouettes (best necklines)
-- High-waisted everything — always
-- A-line, fit-and-flare, wide-leg trousers (add hip volume to balance shoulders)
-- Petite or ankle-length pants only
-- Tonal/monochromatic outfits (elongates short torso)
-- Fitted blazers nipped at waist
-- Bold prints on bottom half only
-- Midi hemlines most elegant; mini for going out
+AVOID: Boat necks, wide off-shoulder, cap sleeves, shoulder ruffles. Low-rise. Wide waistbands, empire/drop waist. Boxy blazers. Bold prints on top. Regular-length pants unaltered.
 
-AVOID:
-- Boat necks, wide off-shoulder, cap sleeves, shoulder ruffles
-- Low-rise bottoms
-- Wide waistbands, empire waist, drop waist
-- Boxy/oversized blazers
-- Bold prints on top
-- Regular-length pants without hemming
+SHOES: Wide toe box. Block heels not stilettos. Round/almond toe. Best brands: Naturalizer, Sam Edelman, Cole Haan, Vionic. Size up half in new brands.
 
-SHOES: Wide toe box. Block heels not stilettos. Round/almond toe. Best: Naturalizer, Sam Edelman, Cole Haan, Vionic. Size up ½ in new brands.
+BRANDS $50-$150: Office: Banana Republic, J.Crew, Mango, Other Stories, Reiss sale. Casual: Reformation sale, Everlane, Anthropologie, Sezane. Going out: Revolve, ASOS Premium, Abercrombie. Denim: Madewell petite high-rise #1, Abercrombie Petite, AG Jeans. Always check petite first.
 
-BRANDS ($50–$150):
-- Office: Banana Republic, J.Crew, Mango, & Other Stories, Reiss (sale)
-- Casual: Reformation (sale), Everlane, Anthropologie, Sézane
-- Going out: Revolve (NBD, L+F), ASOS Premium, Abercrombie
-- Denim: Madewell petite high-rise #1 pick, Abercrombie Petite, AG Jeans
-- Always check petite sections first
+HAIR/FACE: Angular jaw, strong brows - holds statement earrings. Gold hoops signature. Soft waves = best going-out look. Sleek low bun = best office look. Neutral blonde - warm balayage or champagne highlights both work.
 
-HAIR & FACE: Angular jaw, strong brows — can wear statement earrings. Gold hoops are her signature. Soft waves = best going-out look. Sleek low bun = best office look. Hair: neutral blonde territory, both warm balayage and champagne highlights work. Don't over-lighten roots — dark brows anchoring lighter hair is her strong look.
+LIFESTYLE: Corporate office + weekends + going out. Fort Lauderdale South Florida - warm climate year-round.
 
-LIFESTYLE: Corporate office + weekends + going out. Fort Lauderdale/South Florida climate.
+FORMAT: Concise and scannable on mobile. Bold key pieces. Outfit formulas not paragraphs. Brand + why it works for her body on shopping questions.`;
 
-RESPONSE FORMAT:
-- Keep answers concise and scannable on mobile
-- Use **bold** for key pieces or rules
-- Give outfit formulas not paragraphs when possible
-- If asked for a shopping recommendation, include the brand and why it works for her body
-- If she gives you a vague prompt, make your best assumption and offer alternatives`;
-
-// ─── MODE CONFIGS ─────────────────────────────────────────────────────────────
-const modes = {
-  shop: {
-    system: BASE_SYSTEM + `\n\nCURRENT MODE: Live Shopping Search. The user wants to find REAL, SPECIFIC products available to buy right now.
-
-You have web search capability. For every shopping request:
-1. Search for the specific product at her preferred brands
-2. Filter mentally for: petite sizing available, her budget $50-$150, her body rules (high waist, v-neck, wrap, wide-leg, etc.), her colours (white, camel, navy, coral, terracotta, cobalt, emerald)
-3. Return 2-3 SPECIFIC products with: exact product name, brand, approximate price, direct URL if found, and ONE sentence on why it works for her body
-4. Always note if petite sizing is available
-5. If you can't find exact current inventory, give the best specific product name to search yourself
-
-Format each result as:
-**[Product Name]** — [Brand] — ~$[price]
-[One line: why it works for her body/colouring]
-[URL or "Search '[exact name]' on [brand].com"]`,
-    prompts: [
-      { label: "Find jeans", text: "Find me the best petite high-rise straight jeans available right now under $120" },
-      { label: "Work outfit", text: "Find me a work-appropriate top that works for my body, under $80" },
-      { label: "Going out dress", text: "Find me a going-out dress — wrap or v-neck, under $150, available now" },
-      { label: "White outfit", text: "Find me something in white or bright coral that suits my colouring, under $100" },
-    ],
-    chips: ["Under $75", "$75–$150", "Petite", "White", "Camel", "Navy", "Going out", "Office"]
-  },
-  outfit: {
-    system: BASE_SYSTEM + "\n\nCURRENT MODE: Today's Outfit. Help her put together an outfit from what she likely has or can easily get. Ask about occasion, vibe, or weather if not specified. Give a specific outfit formula with 3-4 pieces.",
-    prompts: [
-      { label: "Today", text: "I need an outfit for today — work day, business casual" },
-      { label: "Going out", text: "Going out tonight — dinner and drinks. What should I wear?" },
-      { label: "Feeling bloated", text: "I feel bloated today — what can I wear that still looks polished?" },
-      { label: "Weekend", text: "Casual weekend day in Fort Lauderdale — it's warm and sunny" },
-    ],
-    chips: ["Work", "Going out", "Casual", "Date night", "Travel day", "Event"]
-  },
-  shopping: {
-    system: BASE_SYSTEM + "\n\nCURRENT MODE: Shopping Help. Help her find specific pieces that work for her body and budget. Always give brand + why it works for her proportions. Link to petite sections when relevant. Budget is $50–$150 per item.",
-    prompts: [
-      { label: "Gap", text: "What's missing most from my wardrobe right now?" },
-      { label: "Jeans", text: "Help me find the perfect jeans for my body" },
-      { label: "Dress", text: "I need a great going-out dress — what should I look for?" },
-      { label: "Office", text: "I need to upgrade my office wardrobe — where do I start?" },
-    ],
-    chips: ["Under $75", "$75–$150", "Office", "Going out", "Petite only", "Sale"]
-  },
-  trip: {
-    system: BASE_SYSTEM + "\n\nCURRENT MODE: Trip Packing. Help her pack smart — outfits that mix and match, pack light, work for the itinerary. Always factor in her foot comfort for walking days. Give a packing list with outfit formulas.",
-    prompts: [
-      { label: "Beach trip", text: "I'm going to the beach for a long weekend — help me pack" },
-      { label: "City trip", text: "3 days in New York — mix of meetings and exploring. What do I pack?" },
-      { label: "Europe", text: "10 days in Europe — warm weather, mix of city and beach. Build me a capsule" },
-      { label: "Work trip", text: "Work trip with 2 client dinners and some free time — what to pack?" },
-    ],
-    chips: ["Beach", "City", "Cold weather", "Hot weather", "Business", "Long weekend"]
-  },
-  capsule: {
-    system: BASE_SYSTEM + "\n\nCURRENT MODE: Wardrobe Building. Help her build a timeless, versatile wardrobe. Focus on cost-per-wear, what's missing, and pieces that work across multiple contexts for her body and lifestyle.",
-    prompts: [
-      { label: "Priority", text: "What should I buy next to get the most out of my wardrobe?" },
-      { label: "Timeless", text: "What are the most timeless pieces for my body type and lifestyle?" },
-      { label: "Versatile", text: "What one piece would work for both office and going out?" },
-      { label: "Season", text: "How do I dress well for South Florida — it's always warm here" },
-    ],
-    chips: ["Investment piece", "Budget buy", "Office", "Versatile", "Timeless", "Trendy"]
-  },
-  hair: {
-    system: BASE_SYSTEM + "\n\nCURRENT MODE: Hair & Styling. Help with hair, accessories, makeup colours, and overall styling. Remember her face shape (angular jaw, strong brows), her neutral-spring colouring, and that gold hoops are her signature.",
-    prompts: [
-      { label: "Hair inspo", text: "What hairstyles and cuts would look best on my face shape?" },
-      { label: "Accessories", text: "What accessories should I invest in for my style?" },
-      { label: "Makeup", text: "What makeup colours work best with my colouring?" },
-      { label: "Office hair", text: "Easy office hair ideas that look polished" },
-    ],
-    chips: ["Hair cut", "Hair colour", "Earrings", "Necklaces", "Makeup", "Nails"]
-  }
+const MODES = {
+  outfit:{label:"Outfit",sys:SYS+"\nMODE: Outfit. Give specific formula with 3-4 pieces for the occasion.",
+    prompts:[{l:"Work",t:"Outfit for the office today - business casual"},{l:"Going out",t:"Going out tonight - dinner and drinks"},{l:"Bloated",t:"I feel bloated today - still want to look polished"},{l:"Weekend",t:"Casual warm weekend day in Fort Lauderdale"}],
+    chips:["Work","Going out","Casual","Date night","Travel","Event"]},
+  shop:{label:"Shop Live",sys:SYS+"\nMODE: Live shopping search. Use web search. Find REAL products now. Filter for petite + $50-$150 + her body rules. Return 2-3 products: **Name** - Brand - ~$price / Why it works / Petite: yes/no / Link or search tip.",
+    prompts:[{l:"Jeans",t:"Find petite high-rise straight jeans under $120 available now"},{l:"Work top",t:"Find a work top for my body under $80 available now"},{l:"Going out dress",t:"Find a wrap or v-neck going-out dress under $150 now"},{l:"White piece",t:"Find something white or coral for my colouring under $100 now"}],
+    chips:["Under $75","$75-$150","Petite","White","Camel","Navy","Going out","Office"]},
+  advice:{label:"Advice",sys:SYS+"\nMODE: Style advice. Help find pieces that work for her body. Explain why each piece works for her proportions.",
+    prompts:[{l:"Gap",t:"What is missing most from my wardrobe right now?"},{l:"Jeans",t:"Help me find the perfect jeans for my body"},{l:"Dress",t:"What should I look for in a going-out dress?"},{l:"Office",t:"How do I upgrade my office wardrobe?"}],
+    chips:["Under $75","$75-$150","Office","Going out","Petite only","Sale"]},
+  packing:{label:"Packing",sys:SYS+"\nMODE: Trip packing. Build mix-and-match capsule. Factor foot comfort for walking days. Give packing list with outfit formulas.",
+    prompts:[{l:"Beach",t:"Long weekend at the beach - help me pack"},{l:"New York",t:"3 days in NYC - meetings and exploring"},{l:"Europe",t:"10 days Europe - warm weather, city and beach"},{l:"Work trip",t:"Work trip with 2 client dinners and free time"}],
+    chips:["Beach","City","Cold","Hot","Business","Long weekend"]},
+  wardrobe:{label:"Wardrobe",sys:SYS+"\nMODE: Wardrobe building. Focus on cost-per-wear, versatility, what is missing.",
+    prompts:[{l:"Next buy",t:"What should I buy next for maximum wardrobe value?"},{l:"Timeless",t:"What are the most timeless pieces for my body and style?"},{l:"Versatile",t:"What one piece works for both office and going out?"},{l:"Florida",t:"How do I dress well year-round in South Florida?"}],
+    chips:["Investment","Budget","Office","Versatile","Timeless","Trendy"]},
+  hair:{label:"Hair",sys:SYS+"\nMODE: Hair accessories makeup. Angular jaw, strong brows, neutral-spring colouring, gold hoops signature.",
+    prompts:[{l:"Haircut",t:"What haircuts work best for my face shape?"},{l:"Accessories",t:"What accessories should I invest in?"},{l:"Makeup",t:"What makeup colours work best with my colouring?"},{l:"Office hair",t:"Easy polished office hair ideas"}],
+    chips:["Haircut","Colour","Earrings","Necklaces","Makeup","Nails"]}
 };
 
-let currentMode = 'outfit';
-let history = [];
-let apiKey = '';
+let apiKey='', mode='outfit', hist=[], sid=null;
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-function init() {
-  apiKey = localStorage.getItem('sol-api-key') || '';
-  if (apiKey) {
-    showApp();
-  }
-  loadQuickPrompts();
-  loadContextChips();
-  loadLog();
+function init(){
+  apiKey=localStorage.getItem('sol-key')||'';
+  if(apiKey) showApp();
+  renderWelcome();
+  renderChips();
 }
 
-function saveKey() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  if (key.length < 20) {
-    document.getElementById('apiKeyInput').style.borderColor = '#C17A5A';
-    document.getElementById('apiKeyInput').placeholder = 'Please paste your full API key...';
-    return;
-  }
-  apiKey = key;
-  localStorage.setItem('sol-api-key', key);
+function saveKey(){
+  const k=document.getElementById('apiKeyInput').value.trim();
+  if(k.length<20){document.getElementById('apiKeyInput').style.borderColor='#C05A4A';return;}
+  apiKey=k;
+  localStorage.setItem('sol-key',k);
   showApp();
 }
 
-function showApp() {
-  document.getElementById('apiScreen').style.display = 'none';
-  const app = document.getElementById('app');
-  app.classList.add('visible');
+function showApp(){
+  document.getElementById('apiScreen').style.display='none';
+  document.getElementById('app').classList.add('visible');
 }
 
-// ─── MODE ──────────────────────────────────────────────────────────────────────
-function setMode(mode, btn) {
-  currentMode = mode;
-  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+function resetKey(){
+  if(!confirm('Re-enter your API key?')) return;
+  localStorage.removeItem('sol-key');
+  apiKey='';
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('apiScreen').style.display='flex';
+  document.getElementById('apiKeyInput').value='';
+}
+
+function setMode(m,btn){
+  mode=m;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
-  loadQuickPrompts();
-  loadContextChips();
+  if(!hist.length){renderWelcome();}
+  renderChips();
 }
 
-function loadQuickPrompts() {
-  const container = document.getElementById('quickPrompts');
-  const modePrompts = modes[currentMode].prompts;
-  container.innerHTML = modePrompts.map(p => `
-    <button class="quick-prompt" onclick="sendQuick('${escHtml(p.text)}')">
-      <span class="prompt-label">${p.label}</span>
-      ${p.text}
-    </button>
-  `).join('');
-}
-
-function loadContextChips() {
-  const bar = document.getElementById('contextBar');
-  const chips = modes[currentMode].chips;
-  bar.innerHTML = chips.map(c => `
-    <button class="context-chip" onclick="toggleChip(this, '${c}')">${c}</button>
-  `).join('');
-}
-
-function toggleChip(btn, label) {
-  btn.classList.toggle('active');
-  const input = document.getElementById('chatInput');
-  if (btn.classList.contains('active')) {
-    input.value = input.value ? input.value + `, ${label}` : label;
-  }
-  input.focus();
-}
-
-// ─── CHAT ──────────────────────────────────────────────────────────────────────
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-}
-
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-}
-
-async function sendQuick(text) {
-  hideWelcome();
-  appendMsg(text, 'user');
-  history.push({ role: 'user', content: text });
-  await getReply();
-}
-
-async function sendMessage() {
-  const input = document.getElementById('chatInput');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  input.style.height = 'auto';
-  hideWelcome();
-  appendMsg(text, 'user');
-  history.push({ role: 'user', content: text });
-  await getReply();
-}
-
-function hideWelcome() {
-  const w = document.getElementById('welcome');
-  if (w) w.style.display = 'none';
-}
-
-function appendMsg(text, role) {
-  const container = document.getElementById('messages');
-  const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  const div = document.createElement('div');
-  div.className = `msg ${role}`;
-  div.innerHTML = `
-    <div class="msg-bubble">${formatText(text)}</div>
-    <div class="msg-time">${now}</div>
-  `;
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
-}
-
-function formatText(text) {
-  return text
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/\n/g, '<br>');
-}
-
-function escHtml(text) {
-  return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-}
-
-async function getReply() {
-  const btn = document.getElementById('sendBtn');
-  btn.disabled = true;
-
-  const container = document.getElementById('messages');
-  const thinking = document.createElement('div');
-  thinking.className = 'thinking-bubble';
-  thinking.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-  container.appendChild(thinking);
-  container.scrollTop = container.scrollHeight;
-
-  // Build system with log context
-  const log = getLog();
-  const logContext = log.length > 0
-    ? `\n\nHER STYLE LOG (what she's learned works/doesn't):\n${log.slice(-10).map(e => `- ${e.text}`).join('\n')}`
-    : '';
-
-  const systemPrompt = modes[currentMode].system + logContext;
-
-  try {
-    const isShopMode = currentMode === 'shop';
-    const requestBody = {
-      model: 'claude-sonnet-4-5',
-      max_tokens: 1500,
-      system: systemPrompt,
-      messages: history
-    };
-
-    // Add web search tool for shop mode
-    if (isShopMode) {
-      requestBody.tools = [{ type: 'web_search_20250305', name: 'web_search' }];
-    }
-
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    const data = await res.json();
-
-    if (data.error) {
-      thinking.remove();
-      const errMsg = data.error.type === 'authentication_error'
-        ? 'API key invalid. Tap "New" then re-enter your key from console.anthropic.com'
-        : data.error.type === 'insufficient_quota'
-        ? 'No credits left. Add credits at console.anthropic.com → Settings → Billing'
-        : `Error: ${data.error.message}`;
-      appendMsg(errMsg, 'assistant');
-      btn.disabled = false;
-      return;
-    }
-
-    // Extract text from response (handles tool use blocks)
-    const reply = data.content
-      ?.filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('\n') || 'Something went wrong.';
-
-    history.push({ role: 'assistant', content: reply });
-    thinking.remove();
-    appendMsg(reply, 'assistant');
-
-  } catch(e) {
-    thinking.remove();
-    appendMsg('Connection issue. Check your API key in settings.', 'assistant');
-  }
-
-  btn.disabled = false;
-  document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-}
-
-function clearChat() {
-  history = [];
-  const messages = document.getElementById('messages');
-  messages.innerHTML = '';
-  const welcome = document.createElement('div');
-  welcome.className = 'welcome';
-  welcome.id = 'welcome';
-  welcome.innerHTML = `
-    <div class="welcome-icon">✦</div>
+function renderWelcome(){
+  const c=document.getElementById('msgs');
+  if(hist.length>0) return;
+  const M=MODES[mode];
+  c.innerHTML=`<div class="welcome">
+    <div class="wi">&#10022;</div>
     <h2>Hi Sol, what are<br>we <em>styling</em> today?</h2>
-    <p>I know your measurements, your colours, and what works for your body.</p>
-    <div class="quick-prompts" id="quickPrompts"></div>
-  `;
-  messages.appendChild(welcome);
-  loadQuickPrompts();
+    <p>I know your measurements, colours, and what works for your body.</p>
+    <div class="qps">${M.prompts.map(p=>`<button class="qp" onclick="sendQ('${esc(p.t)}')" ><span class="ql">${p.l}</span>${p.t}</button>`).join('')}</div>
+  </div>`;
 }
 
-// ─── LOG ───────────────────────────────────────────────────────────────────────
-function getLog() {
-  try { return JSON.parse(localStorage.getItem('sol-style-log') || '[]'); } catch(e) { return []; }
+function renderChips(){
+  const c=document.getElementById('chips');
+  c.innerHTML=MODES[mode].chips.map(ch=>`<button class="chip" onclick="toggleChip(this,'${ch}')">${ch}</button>`).join('');
 }
 
-function saveLogData(log) {
-  try { localStorage.setItem('sol-style-log', JSON.stringify(log)); } catch(e) {}
+function toggleChip(btn,label){
+  btn.classList.toggle('active');
+  const inp=document.getElementById('cinput');
+  if(btn.classList.contains('active')) inp.value=inp.value?inp.value+', '+label:label;
+  inp.focus();
 }
 
-function loadLog() {
-  renderLog();
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+
+async function sendQ(text){clearWelcome();bubble(text,'user');hist.push({role:'user',content:text});await reply();}
+async function send(){
+  const inp=document.getElementById('cinput');
+  const text=inp.value.trim();
+  if(!text) return;
+  inp.value='';inp.style.height='auto';
+  clearWelcome();bubble(text,'user');hist.push({role:'user',content:text});await reply();
 }
 
-function renderLog() {
-  const log = getLog();
-  const container = document.getElementById('logContent');
-  if (log.length === 0) {
-    container.innerHTML = '<div class="empty-log">No entries yet.<br><br>Start logging what works and what doesn\'t — your stylist learns from it.</div>';
-    return;
-  }
-  container.innerHTML = log.slice().reverse().map((entry, i) => `
-    <div class="log-entry">
-      <div>
-        <div class="log-entry-text">${escapeHtml(entry.text)}</div>
-        <div class="log-entry-date">${entry.date}</div>
-      </div>
-      <button class="log-delete" onclick="deleteLogEntry(${log.length - 1 - i})">×</button>
-    </div>
-  `).join('');
+function clearWelcome(){
+  const w=document.querySelector('.welcome');
+  if(w) w.remove();
+  if(!sid) sid=Date.now();
 }
 
-function escapeHtml(text) {
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function bubble(text,role){
+  const c=document.getElementById('msgs');
+  const now=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const d=document.createElement('div');
+  d.className='msg '+role;
+  const foot=role==='assistant'
+    ?`<div class="mfoot"><span class="mtime">${now}</span><button class="save-btn" onclick="saveFromChat(this)">+ Wishlist</button></div>`
+    :`<div class="mfoot"><span class="mtime">${now}</span></div>`;
+  d.innerHTML=`<div class="bubble">${fmt(text)}</div>${foot}`;
+  c.appendChild(d);
+  c.scrollTop=c.scrollHeight;
+  return d;
 }
 
-function addLogEntry() {
-  const input = document.getElementById('logInput');
-  const text = input.value.trim();
-  if (!text) return;
-  const log = getLog();
-  log.push({
-    text,
-    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-  });
-  saveLogData(log);
-  input.value = '';
-  renderLog();
+function fmt(t){
+  return String(t)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g,'<em>$1</em>')
+    .replace(/\n/g,'<br>');
 }
 
-function deleteLogEntry(index) {
-  const log = getLog();
-  log.splice(index, 1);
-  saveLogData(log);
-  renderLog();
-}
+function esc(t){return t.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
 
-function openLog() {
-  renderLog();
-  document.getElementById('logPanel').classList.add('visible');
-}
+async function reply(){
+  const sbtn=document.getElementById('sbtn');
+  sbtn.disabled=true;
+  const c=document.getElementById('msgs');
+  const th=document.createElement('div');
+  th.className='thinking';
+  th.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+  c.appendChild(th);c.scrollTop=c.scrollHeight;
 
-function closeLog() {
-  document.getElementById('logPanel').classList.remove('visible');
-}
+  const log=getLog();
+  const logCtx=log.length?'\n\nHER STYLE LOG:\n'+log.slice(-12).map(e=>'- '+e.text).join('\n'):'';
+  const sys=MODES[mode].sys+logCtx;
+  const isShop=mode==='shop';
 
-// ─── WISHLIST ──────────────────────────────────────────────────────────────────
-function getWishlist() {
-  try { return JSON.parse(localStorage.getItem('sol-wishlist') || '[]'); } catch(e) { return []; }
-}
+  try{
+    const body={model:'claude-sonnet-4-5',max_tokens:1200,system:sys,messages:hist};
+    if(isShop) body.tools=[{type:'web_search_20250305',name:'web_search'}];
 
-function saveWishlist(list) {
-  try { localStorage.setItem('sol-wishlist', JSON.stringify(list)); } catch(e) {}
-}
-
-function renderWishlist() {
-  const list = getWishlist();
-  const container = document.getElementById('wishlistContent');
-  if (list.length === 0) {
-    container.innerHTML = '<div class="empty-log">No items yet.<br><br>Add pieces you\'re looking for and tap "Find Now" to search live availability.</div>';
-    return;
-  }
-  container.innerHTML = list.map((item, i) => `
-    <div class="wishlist-item" id="witem-${i}">
-      <div class="wishlist-item-top">
-        <div>
-          <div class="wishlist-item-brand">${escapeHtml(item.brand || 'Any brand')}</div>
-          <div class="wishlist-item-name">${escapeHtml(item.name)}</div>
-          ${item.note ? `<div class="wishlist-item-note">${escapeHtml(item.note)}</div>` : ''}
-        </div>
-      </div>
-      <div id="wresult-${i}"></div>
-      <div class="wishlist-actions">
-        <button class="wishlist-search-btn" id="wsearch-${i}" onclick="searchWishlistItem(${i})">Find Now</button>
-        <button class="wishlist-delete-btn" onclick="deleteWishlistItem(${i})">Remove</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function addWishlistItem() {
-  const name = document.getElementById('wishlistName').value.trim();
-  const note = document.getElementById('wishlistNote').value.trim();
-  if (!name) return;
-  const list = getWishlist();
-  list.push({ name, note, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) });
-  saveWishlist(list);
-  document.getElementById('wishlistName').value = '';
-  document.getElementById('wishlistNote').value = '';
-  renderWishlist();
-}
-
-function deleteWishlistItem(i) {
-  const list = getWishlist();
-  list.splice(i, 1);
-  saveWishlist(list);
-  renderWishlist();
-}
-
-async function searchWishlistItem(i) {
-  const list = getWishlist();
-  const item = list[i];
-  const btn = document.getElementById(`wsearch-${i}`);
-  const resultEl = document.getElementById(`wresult-${i}`);
-  btn.disabled = true;
-  btn.textContent = 'Searching...';
-  resultEl.innerHTML = `<div class="wishlist-result"><div class="search-indicator"><div class="search-dot"></div> Searching live...</div></div>`;
-
-  const searchPrompt = `Search for this specific item for Sol and find current availability and price:
-Item: ${item.name}
-Notes: ${item.note || 'none'}
-
-Sol's profile: petite (5'3"), size 7-7.5 wide shoes, budget $50-$150, neutral spring colouring (white, camel, navy, coral work great). Body: inverted triangle, defined waist — needs petite sizing, high waist, v-neck or wrap styles.
-
-Search for this item at her brands (Madewell, Banana Republic, J.Crew, Reformation, Anthropologie, Abercrombie, Everlane, Mango, & Other Stories, ASOS).
-
-Return: exact product name, brand, current price, whether petite is available, and a direct link. Be concise — 3-4 lines max.`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 600,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        messages: [{ role: 'user', content: searchPrompt }]
-      })
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify(body)
     });
+    const data=await res.json();
 
-    const data = await res.json();
-    const text = data.content?.filter(b => b.type === 'text').map(b => b.text).join('\n') || 'No results found.';
-    resultEl.innerHTML = `<div class="wishlist-result">${formatText(text)}</div>`;
+    if(data.error){
+      th.remove();
+      const msg=data.error.type==='authentication_error'?'API key invalid - tap Key to update.':
+        data.error.type==='insufficient_quota'?'No credits - add at console.anthropic.com Billing.':
+        'Error: '+data.error.message;
+      bubble(msg,'assistant');sbtn.disabled=false;return;
+    }
 
-  } catch(e) {
-    resultEl.innerHTML = `<div class="wishlist-result">Search failed — check your connection.</div>`;
+    const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n')||'Something went wrong.';
+    hist.push({role:'assistant',content:text});
+    th.remove();
+    bubble(text,'assistant');
+    saveSession();
+    if(hist.length>=6&&hist.length%4===0) autoLearn();
+
+  }catch(e){
+    th.remove();
+    bubble('Connection issue - check your internet and try again.','assistant');
   }
-
-  btn.disabled = false;
-  btn.textContent = 'Search Again';
+  sbtn.disabled=false;
 }
 
-function openWishlist() {
-  renderWishlist();
-  document.getElementById('wishlistPanel').classList.add('visible');
+function saveFromChat(btn){
+  const text=btn.closest('.msg').querySelector('.bubble').innerText.trim().substring(0,120);
+  const list=getWishlist();
+  list.push({name:text,note:'From chat - '+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}),date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})});
+  saveWishlist(list);
+  btn.textContent='Saved';btn.classList.add('saved');
+  toast('Added to wishlist!');
 }
 
-function closeWishlist() {
-  document.getElementById('wishlistPanel').classList.remove('visible');
+async function autoLearn(){
+  const convo=hist.slice(-8).map(m=>m.role+': '+m.content).join('\n');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:250,messages:[{role:'user',content:`From this styling conversation extract 1-2 SHORT facts about Sol's preferences, what fit well, or what she liked/disliked. Only concrete facts. Return ONLY a JSON array of short strings, nothing else.\n\n${convo}`}]})
+    });
+    const data=await res.json();
+    const raw=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
+    const learnings=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    if(Array.isArray(learnings)&&learnings.length){
+      const log=getLog();
+      learnings.forEach(l=>{
+        if(!log.find(e=>e.text===l)) log.push({text:l,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),auto:true});
+      });
+      saveLog(log);
+    }
+  }catch(e){}
 }
 
-function resetKey() {
-  if (confirm('Re-enter your API key?')) {
-    localStorage.removeItem('sol-api-key');
-    apiKey = '';
-    document.getElementById('app').classList.remove('visible');
-    document.getElementById('apiScreen').style.display = 'flex';
-    document.getElementById('apiKeyInput').value = '';
+// SESSIONS
+function getSessions(){try{return JSON.parse(localStorage.getItem('sol-sessions')||'[]');}catch(e){return[];}}
+function saveSessions(s){try{localStorage.setItem('sol-sessions',JSON.stringify(s.slice(-30)));}catch(e){}}
+
+function saveSession(){
+  if(!sid||hist.length<2) return;
+  const sessions=getSessions();
+  const idx=sessions.findIndex(s=>s.id===sid);
+  const firstUser=hist.find(m=>m.role==='user')?.content||'Conversation';
+  const title=firstUser.length>60?firstUser.substring(0,60)+'...':firstUser;
+  const session={id:sid,title,mode,modeLabel:MODES[mode].label,preview:hist[hist.length-1]?.content?.substring(0,100)||'',date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),history:[...hist]};
+  if(idx>=0) sessions[idx]=session; else sessions.unshift(session);
+  saveSessions(sessions);
+}
+
+function newChat(){
+  if(hist.length>0) saveSession();
+  hist=[];sid=null;mode='outfit';
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  document.getElementById('msgs').innerHTML='';
+  renderWelcome();renderChips();
+}
+
+function openHistory(){
+  const sessions=getSessions();
+  const body=document.getElementById('histBody');
+  if(!sessions.length){
+    body.innerHTML='<div class="empty"><div class="eicon">&#128172;</div>No conversations yet.<br>Start chatting and they appear here.</div>';
+  } else {
+    body.innerHTML=sessions.map((s,i)=>`
+      <div class="hi" onclick="loadSession(${i})">
+        <div class="hi-top">
+          <div class="hi-title">${escH(s.title)}</div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <span class="hi-date">${s.date}</span>
+            <button class="hdel" onclick="delSession(event,${i})">x</button>
+          </div>
+        </div>
+        <div class="hi-preview">${escH((s.preview||'').substring(0,100))}${(s.preview||'').length>100?'...':''}</div>
+        <span class="hi-mode">${s.modeLabel||s.mode}</span>
+      </div>`).join('');
   }
+  document.getElementById('histPanel').classList.add('open');
 }
 
-// ─── START ────────────────────────────────────────────────────────────────────
+function loadSession(i){
+  const sessions=getSessions();
+  const s=sessions[i];
+  if(!s) return;
+  hist=[...s.history];sid=s.id;mode=s.mode||'outfit';
+  const tabOrder=['outfit','shop','advice','packing','wardrobe','hair'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabOrder[i]===mode));
+  const c=document.getElementById('msgs');c.innerHTML='';
+  hist.forEach(m=>bubble(m.content,m.role));
+  closeHistory();toast('Conversation loaded');
+}
+
+function delSession(e,i){e.stopPropagation();const s=getSessions();s.splice(i,1);saveSessions(s);openHistory();}
+function closeHistory(){document.getElementById('histPanel').classList.remove('open');}
+
+// LOG
+function getLog(){try{return JSON.parse(localStorage.getItem('sol-log')||'[]');}catch(e){return[];}}
+function saveLog(l){try{localStorage.setItem('sol-log',JSON.stringify(l));}catch(e){}}
+
+function openLog(){renderLog();document.getElementById('logPanel').classList.add('open');}
+function closeLog(){document.getElementById('logPanel').classList.remove('open');}
+
+function renderLog(){
+  const log=getLog();
+  const body=document.getElementById('logBody');
+  if(!log.length){body.innerHTML='<div class="empty"><div class="eicon">&#128211;</div>No entries yet.<br>Log what works - your stylist learns from it.</div>';return;}
+  body.innerHTML=log.slice().reverse().map((e,ri)=>{
+    const i=log.length-1-ri;
+    return `<div class="li ${e.auto?'auto':''}">
+      <div><div class="li-text">${escH(e.text)}</div><div class="li-meta">${e.date}${e.auto?' · Auto-learned':''}</div></div>
+      <button class="ldel" onclick="delLog(${i})">x</button>
+    </div>`;
+  }).join('');
+}
+
+function addLog(){
+  const inp=document.getElementById('logInput');
+  const text=inp.value.trim();
+  if(!text) return;
+  const log=getLog();
+  log.push({text,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})});
+  saveLog(log);inp.value='';renderLog();toast('Added to log!');
+}
+
+function delLog(i){const log=getLog();log.splice(i,1);saveLog(log);renderLog();}
+
+// WISHLIST
+function getWishlist(){try{return JSON.parse(localStorage.getItem('sol-wishlist')||'[]');}catch(e){return[];}}
+function saveWishlist(w){try{localStorage.setItem('sol-wishlist',JSON.stringify(w));}catch(e){}}
+
+function openWishlist(){renderWishlist();document.getElementById('wishPanel').classList.add('open');}
+function closeWishlist(){document.getElementById('wishPanel').classList.remove('open');}
+
+function renderWishlist(){
+  const list=getWishlist();
+  const body=document.getElementById('wishBody');
+  if(!list.length){body.innerHTML='<div class="empty"><div class="eicon">&#128717;</div>Nothing saved yet.<br>Add items here or tap "+ Wishlist" on any stylist message.</div>';return;}
+  body.innerHTML=list.map((item,i)=>`
+    <div class="wi-item">
+      <div class="wi-name">${escH(item.name)}</div>
+      ${item.note?`<div class="wi-note">${escH(item.note)}</div>`:''}
+      <div id="wr-${i}"></div>
+      <div class="wi-acts">
+        <button class="wi-find" id="wb-${i}" onclick="searchWish(${i})">Find Now</button>
+        <button class="wi-del" onclick="delWish(${i})">Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+function addWish(){
+  const name=document.getElementById('wname').value.trim();
+  const note=document.getElementById('wnote').value.trim();
+  if(!name) return;
+  const list=getWishlist();
+  list.push({name,note,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})});
+  saveWishlist(list);
+  document.getElementById('wname').value='';
+  document.getElementById('wnote').value='';
+  renderWishlist();toast('Saved to wishlist!');
+}
+
+function delWish(i){const list=getWishlist();list.splice(i,1);saveWishlist(list);renderWishlist();}
+
+async function searchWish(i){
+  const list=getWishlist();const item=list[i];
+  const btn=document.getElementById('wb-'+i);
+  const res=document.getElementById('wr-'+i);
+  btn.disabled=true;btn.textContent='Searching...';
+  res.innerHTML='<div class="wi-res">Searching live inventory...</div>';
+
+  const prompt=`Search for this item for Sol:\nItem: ${item.name}\nNotes: ${item.note||'none'}\n\nSol: petite 5'3", shoe 7-7.5 wide, budget $50-$150, neutral spring (white, camel, navy, coral great). Inverted triangle - needs petite, high waist, v-neck/wrap.\n\nSearch: Madewell, Banana Republic, J.Crew, Reformation, Anthropologie, Abercrombie, Everlane, Mango, ASOS, Other Stories.\n\nReturn: product name, brand, price, petite available y/n, link. Max 4 lines.`;
+
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})
+    });
+    const data=await r.json();
+    const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n')||'No results found.';
+    res.innerHTML=`<div class="wi-res">${fmt(text)}</div>`;
+  }catch(e){
+    res.innerHTML='<div class="wi-res">Search failed - check your connection.</div>';
+  }
+  btn.disabled=false;btn.textContent='Search Again';
+}
+
+function escH(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
 init();
 </script>
 </body>
