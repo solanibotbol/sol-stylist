@@ -195,6 +195,37 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:v
 .wf-btn{background:transparent;border:1.5px solid var(--border);color:var(--text2);padding:5px 13px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border-radius:20px;white-space:nowrap;transition:all 0.2s;flex-shrink:0;}
 .wf-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 
+/* PROFILE */
+.prof-section{margin-bottom:20px;}
+.prof-title{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.prof-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;box-shadow:0 1px 4px rgba(42,33,24,0.04);}
+.prof-season{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--accent);margin-bottom:10px;}
+.prof-colours{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+.prof-colour-pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.prof-colour-pill.good{background:var(--accent-light);color:var(--accent);border:1px solid var(--accent2);}
+.prof-colour-pill.bad{background:#FDECEA;color:#C62828;border:1px solid #FFCDD2;}
+.prof-avoid-label{font-size:11px;font-weight:700;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin:8px 0 6px;}
+.prof-note{font-size:12px;color:var(--text3);margin-top:8px;font-style:italic;}
+.prof-rule-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.prof-rule-label.good{color:var(--green);}
+.prof-rule-label.bad{color:var(--red);}
+.prof-list{list-style:none;padding:0;}
+.prof-list li{font-size:13px;color:var(--text);line-height:1.6;padding:2px 0;}
+.prof-list li::before{content:'✓ ';color:var(--green);font-weight:700;}
+.prof-list.avoid li::before{content:'✗ ';color:var(--red);}
+.prof-meas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.prof-meas-item{display:flex;flex-direction:column;}
+.prof-meas-label{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.prof-meas-input{background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:10px 12px;font-family:'Nunito',sans-serif;font-size:14px;outline:none;border-radius:10px;transition:border-color 0.2s;-webkit-appearance:none;}
+.prof-meas-input:focus{border-color:var(--accent);}
+.prof-ward-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.prof-ward-stat{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px 8px;text-align:center;box-shadow:0 1px 4px rgba(42,33,24,0.04);}
+.prof-ward-stat.works{border-color:#81C784;}
+.prof-ward-stat.styling{border-color:var(--accent2);}
+.prof-ward-stat.avoid{border-color:#E57373;}
+.prof-ward-num{font-family:'Playfair Display',serif;font-size:26px;color:var(--text);font-weight:400;line-height:1;}
+.prof-ward-lbl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-top:4px;}
+
 /* EMPTY */
 .empty{text-align:center;padding:44px 20px;color:var(--text3);font-size:14px;line-height:1.8;}
 .empty .eicon{font-size:32px;margin-bottom:12px;}
@@ -228,6 +259,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:v
       <button class="hbtn" onclick="openHistory()">History</button>
       <button class="hbtn" onclick="openWardrobe()">Wardrobe</button>
       <button class="hbtn" onclick="openWishlist()">Wishlist</button>
+      <button class="hbtn" onclick="openProfile()">Profile</button>
       <button class="hbtn" onclick="openLog()">Log</button>
       <button class="hbtn" onclick="newChat()">New</button>
       <button class="hbtn key" onclick="resetKey()">Key</button>
@@ -308,6 +340,12 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:v
     <input type="file" id="wardFileInput" accept="image/*" onchange="analyzeItem(event)"/>
     <div id="wardGrid" class="ward-grid"></div>
   </div>
+</div>
+
+<!-- PROFILE -->
+<div class="panel" id="profilePanel">
+  <div class="ph"><h2>My Profile</h2><button class="pcls" onclick="closeProfile()">x</button></div>
+  <div class="pbody" id="profileBody"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -851,6 +889,129 @@ async function resizeImage(file,maxSize){
     };
     img.src=url;
   });
+}
+
+// ── PROFILE ──────────────────────────────────────────────────────────────────
+const DEFAULT_MEASUREMENTS={height:"5'3\"",shoulder:'39.6',bust:'31.7',waist:'26.3',hips:'34.0',torso:'15.5',inseam:'26.5',ankle:'8.7',shoe:'7-7.5 WIDE'};
+function getMeasurements(){try{return JSON.parse(localStorage.getItem('sol-measurements')||'null');}catch(e){return null;}}
+function saveMeasurementsFromForm(){
+  const fields=['height','shoulder','bust','waist','hips','torso','inseam','ankle','shoe'];
+  const m={};
+  fields.forEach(f=>{const el=document.getElementById('pm-'+f);if(el)m[f]=el.value.trim();});
+  localStorage.setItem('sol-measurements',JSON.stringify(m));
+  toast('Measurements saved!');
+}
+
+function openProfile(){renderProfile();document.getElementById('profilePanel').classList.add('open');}
+function closeProfile(){document.getElementById('profilePanel').classList.remove('open');}
+
+function renderProfile(){
+  const body=document.getElementById('profileBody');
+  const m=getMeasurements()||DEFAULT_MEASUREMENTS;
+  const memory=getMemory();
+  const prefs=memory.preferences||[];
+  const log=getLog();
+  const wardrobe=getWardrobe();
+  const wWorks=wardrobe.filter(w=>w.verdict==='works').length;
+  const wStyling=wardrobe.filter(w=>w.verdict==='styling').length;
+  const wAvoid=wardrobe.filter(w=>w.verdict==='avoid').length;
+
+  const measFields=[
+    {key:'height',label:'Height'},
+    {key:'shoulder',label:'Shoulder (in)'},
+    {key:'bust',label:'Bust (in)'},
+    {key:'waist',label:'Waist (in)'},
+    {key:'hips',label:'Hips (in)'},
+    {key:'torso',label:'Torso (in)'},
+    {key:'inseam',label:'Inseam (in)'},
+    {key:'ankle',label:'Ankle (in)'},
+    {key:'shoe',label:'Shoe (US)'},
+  ];
+
+  const goodColours=['Bright white','Ivory','Camel','Navy','Coral red','Terracotta','Soft blush','Bright teal','Cobalt','Emerald','Warm olive'];
+  const badColours=['Lavender','Fuchsia','Cool gray','Icy pastels'];
+  const worksRules=['V-necks, scoop necks, wrap silhouettes','High-waisted everything','A-line, fit-and-flare, wide-leg trousers','Petite/ankle-length only','Tonal outfits (elongates torso)','Fitted waist-nipped blazers','Bold prints on bottom only','Midi most elegant, mini for going out'];
+  const avoidRules=['Boat necks, wide off-shoulder, cap sleeves, shoulder ruffles','Low-rise','Wide waistbands, empire/drop waist','Boxy blazers','Bold prints on top','Regular-length pants unaltered'];
+
+  body.innerHTML=`
+    <div class="prof-section">
+      <div class="prof-title">Body Measurements</div>
+      <div class="prof-meas-grid">
+        ${measFields.map(f=>`<div class="prof-meas-item">
+          <label class="prof-meas-label">${f.label}</label>
+          <input class="prof-meas-input" id="pm-${f.key}" value="${escH(m[f.key]||'')}" placeholder="&mdash;"/>
+        </div>`).join('')}
+      </div>
+      <button class="btnp" style="margin-top:12px;" onclick="saveMeasurementsFromForm()">Save Measurements</button>
+    </div>
+
+    <div class="prof-section">
+      <div class="prof-title">Colour Season</div>
+      <div class="prof-card">
+        <div class="prof-season">Neutral Spring &mdash; High Contrast</div>
+        <div class="prof-colours">${goodColours.map(c=>`<span class="prof-colour-pill good">${c}</span>`).join('')}</div>
+        <div class="prof-avoid-label">Avoid</div>
+        <div class="prof-colours">${badColours.map(c=>`<span class="prof-colour-pill bad">${c}</span>`).join('')}</div>
+        <div class="prof-note">Gold jewellery primary &middot; Clear/bright over muted/dusty</div>
+      </div>
+    </div>
+
+    <div class="prof-section">
+      <div class="prof-title">Silhouette Rules</div>
+      <div class="prof-card">
+        <div class="prof-rule-label good">Works</div>
+        <ul class="prof-list">${worksRules.map(r=>`<li>${r}</li>`).join('')}</ul>
+        <div class="prof-rule-label bad" style="margin-top:12px;">Avoid</div>
+        <ul class="prof-list avoid">${avoidRules.map(r=>`<li>${r}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <div class="prof-section">
+      <div class="prof-title">Learned Preferences</div>
+      ${!prefs.length?`<div class="empty" style="padding:24px 0;"><div class="eicon">&#128161;</div>No preferences learned yet.<br>Chat more and they appear here.</div>`:
+        prefs.slice().reverse().map((p,ri)=>{
+          const i=prefs.length-1-ri;
+          return `<div class="li"><div class="li-text">${escH(p)}</div><button class="ldel" onclick="delPrefFromProfile(${i})">x</button></div>`;
+        }).join('')}
+    </div>
+
+    <div class="prof-section">
+      <div class="prof-title">Style Log</div>
+      ${!log.length?`<div class="empty" style="padding:24px 0;"><div class="eicon">&#128211;</div>No entries yet.</div>`:
+        log.slice().reverse().map((e,ri)=>{
+          const i=log.length-1-ri;
+          return `<div class="li ${e.auto?'auto':''}">
+            <div><div class="li-text">${escH(e.text)}</div><div class="li-meta">${e.date}${e.auto?' &middot; Auto-learned':''}</div></div>
+            <button class="ldel" onclick="delLogFromProfile(${i})">x</button>
+          </div>`;
+        }).join('')}
+    </div>
+
+    <div class="prof-section">
+      <div class="prof-title">Wardrobe Summary</div>
+      <div class="prof-ward-summary">
+        <div class="prof-ward-stat works"><div class="prof-ward-num">${wWorks}</div><div class="prof-ward-lbl">Works</div></div>
+        <div class="prof-ward-stat styling"><div class="prof-ward-num">${wStyling}</div><div class="prof-ward-lbl">Styling</div></div>
+        <div class="prof-ward-stat avoid"><div class="prof-ward-num">${wAvoid}</div><div class="prof-ward-lbl">Avoid</div></div>
+        <div class="prof-ward-stat"><div class="prof-ward-num">${wardrobe.length}</div><div class="prof-ward-lbl">Total</div></div>
+      </div>
+    </div>
+  `;
+}
+
+function delPrefFromProfile(i){
+  const mem=getMemory();
+  mem.preferences=mem.preferences||[];
+  mem.preferences.splice(i,1);
+  saveMemory(mem);
+  renderProfile();
+}
+
+function delLogFromProfile(i){
+  const log=getLog();
+  log.splice(i,1);
+  saveLog(log);
+  renderProfile();
 }
 
 init();
